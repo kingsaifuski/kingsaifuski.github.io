@@ -1,4 +1,752 @@
-< script>
-    < !--code by https: //www.html-code-generator.com -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=no">
+    <meta name="theme-color" content="#050505">
+    <meta name="description" content="Peta Interaktif Toleransi Indonesia - Studi Kasus 2026">
+    <title>TUGAS PKN</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-        document.write(unescape('%3C%21%44%4F%43%54%59%50%45%20%68%74%6D%6C%3E%0A%3C%68%74%6D%6C%20%6C%61%6E%67%3D%22%69%64%22%3E%0A%3C%68%65%61%64%3E%0A%20%20%20%20%3C%6D%65%74%61%20%63%68%61%72%73%65%74%3D%22%55%54%46%2D%38%22%3E%0A%20%20%20%20%3C%6D%65%74%61%20%6E%61%6D%65%3D%22%76%69%65%77%70%6F%72%74%22%20%63%6F%6E%74%65%6E%74%3D%22%77%69%64%74%68%3D%64%65%76%69%63%65%2D%77%69%64%74%68%2C%20%69%6E%69%74%69%61%6C%2D%73%63%61%6C%65%3D%31%2E%30%2C%20%6D%61%78%69%6D%75%6D%2D%73%63%61%6C%65%3D%35%2E%30%2C%20%75%73%65%72%2D%73%63%61%6C%61%62%6C%65%3D%6E%6F%22%3E%0A%20%20%20%20%3C%6D%65%74%61%20%6E%61%6D%65%3D%22%74%68%65%6D%65%2D%63%6F%6C%6F%72%22%20%63%6F%6E%74%65%6E%74%3D%22%23%30%35%30%35%30%35%22%3E%0A%20%20%20%20%3C%6D%65%74%61%20%6E%61%6D%65%3D%22%64%65%73%63%72%69%70%74%69%6F%6E%22%20%63%6F%6E%74%65%6E%74%3D%22%50%65%74%61%20%49%6E%74%65%72%61%6B%74%69%66%20%54%6F%6C%65%72%61%6E%73%69%20%49%6E%64%6F%6E%65%73%69%61%20%2D%20%53%74%75%64%69%20%4B%61%73%75%73%20%32%30%32%36%22%3E%0A%20%20%20%20%3C%74%69%74%6C%65%3E%54%55%47%41%53%20%50%4B%4E%3C%2F%74%69%74%6C%65%3E%0A%20%20%20%20%0A%20%20%20%20%3C%6C%69%6E%6B%20%72%65%6C%3D%22%73%74%79%6C%65%73%68%65%65%74%22%20%68%72%65%66%3D%22%68%74%74%70%73%3A%2F%2F%75%6E%70%6B%67%2E%63%6F%6D%2F%6C%65%61%66%6C%65%74%40%31%2E%39%2E%34%2F%64%69%73%74%2F%6C%65%61%66%6C%65%74%2E%63%73%73%22%20%69%6E%74%65%67%72%69%74%79%3D%22%73%68%61%32%35%36%2D%70%34%4E%78%41%6F%4A%42%68%49%49%4E%2B%68%6D%4E%48%72%7A%52%43%66%39%74%44%2F%6D%69%5A%79%6F%48%53%35%6F%62%54%52%52%39%42%4D%59%3D%22%20%63%72%6F%73%73%6F%72%69%67%69%6E%3D%22%22%2F%3E%0A%20%20%20%20%3C%6C%69%6E%6B%20%68%72%65%66%3D%22%68%74%74%70%73%3A%2F%2F%66%6F%6E%74%73%2E%67%6F%6F%67%6C%65%61%70%69%73%2E%63%6F%6D%2F%63%73%73%32%3F%66%61%6D%69%6C%79%3D%49%6E%74%65%72%3A%77%67%68%74%40%33%30%30%3B%34%30%30%3B%35%30%30%3B%36%30%30%26%66%61%6D%69%6C%79%3D%52%61%6A%64%68%61%6E%69%3A%77%67%68%74%40%35%30%30%3B%36%30%30%3B%37%30%30%26%64%69%73%70%6C%61%79%3D%73%77%61%70%22%20%72%65%6C%3D%22%73%74%79%6C%65%73%68%65%65%74%22%3E%0A%20%20%20%20%3C%6C%69%6E%6B%20%72%65%6C%3D%22%73%74%79%6C%65%73%68%65%65%74%22%20%68%72%65%66%3D%22%68%74%74%70%73%3A%2F%2F%63%64%6E%6A%73%2E%63%6C%6F%75%64%66%6C%61%72%65%2E%63%6F%6D%2F%61%6A%61%78%2F%6C%69%62%73%2F%66%6F%6E%74%2D%61%77%65%73%6F%6D%65%2F%36%2E%34%2E%30%2F%63%73%73%2F%61%6C%6C%2E%6D%69%6E%2E%63%73%73%22%3E%0A%0A%20%20%20%20%3C%73%74%79%6C%65%3E%0A%20%20%20%20%20%20%20%20%2F%2A%20%2D%2D%2D%20%31%2E%20%43%4F%52%45%20%56%41%52%49%41%42%4C%45%53%20%26%20%52%45%53%45%54%20%2D%2D%2D%20%2A%2F%0A%20%20%20%20%20%20%20%20%3A%72%6F%6F%74%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%2D%2D%62%67%2D%64%61%72%6B%3A%20%23%30%35%30%35%30%35%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%2D%2D%62%67%2D%70%61%6E%65%6C%3A%20%72%67%62%61%28%32%30%2C%20%32%35%2C%20%33%35%2C%20%30%2E%38%35%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%2D%2D%67%6C%61%73%73%2D%62%6F%72%64%65%72%3A%20%31%70%78%20%73%6F%6C%69%64%20%72%67%62%61%28%32%35%35%2C%20%32%35%35%2C%20%32%35%35%2C%20%30%2E%30%38%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%2D%2D%70%72%69%6D%61%72%79%3A%20%23%30%30%66%32%66%66%3B%20%2F%2A%20%43%79%62%65%72%20%43%79%61%6E%20%2A%2F%0A%20%20%20%20%20%20%20%20%20%20%20%20%2D%2D%73%65%63%6F%6E%64%61%72%79%3A%20%23%34%64%37%39%66%66%3B%20%2F%2A%20%44%65%65%70%20%42%6C%75%65%20%2A%2F%0A%20%20%20%20%20%20%20%20%20%20%20%20%2D%2D%61%63%63%65%6E%74%3A%20%23%66%66%30%30%35%35%3B%20%2F%2A%20%41%6C%65%72%74%20%52%65%64%2F%50%69%6E%6B%20%2A%2F%0A%20%20%20%20%20%20%20%20%20%20%20%20%2D%2D%74%65%78%74%2D%6D%61%69%6E%3A%20%23%66%66%66%66%66%66%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%2D%2D%74%65%78%74%2D%6D%75%74%65%64%3A%20%23%38%62%39%62%62%34%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%2D%2D%73%68%61%64%6F%77%2D%67%6C%6F%77%3A%20%30%20%30%20%32%30%70%78%20%72%67%62%61%28%30%2C%20%32%34%32%2C%20%32%35%35%2C%20%30%2E%31%35%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%2D%2D%72%61%64%69%75%73%2D%78%6C%3A%20%32%34%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%2D%2D%72%61%64%69%75%73%2D%6D%64%3A%20%31%36%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%2D%2D%73%61%66%65%2D%74%6F%70%3A%20%65%6E%76%28%73%61%66%65%2D%61%72%65%61%2D%69%6E%73%65%74%2D%74%6F%70%2C%20%32%30%70%78%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%2D%2D%73%61%66%65%2D%62%6F%74%74%6F%6D%3A%20%65%6E%76%28%73%61%66%65%2D%61%72%65%61%2D%69%6E%73%65%74%2D%62%6F%74%74%6F%6D%2C%20%32%30%70%78%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%2D%2D%61%6E%69%6D%2D%73%70%65%65%64%3A%20%30%2E%34%73%20%63%75%62%69%63%2D%62%65%7A%69%65%72%28%30%2E%32%2C%20%30%2E%38%2C%20%30%2E%32%2C%20%31%29%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2A%20%7B%20%6D%61%72%67%69%6E%3A%20%30%3B%20%70%61%64%64%69%6E%67%3A%20%30%3B%20%62%6F%78%2D%73%69%7A%69%6E%67%3A%20%62%6F%72%64%65%72%2D%62%6F%78%3B%20%2D%77%65%62%6B%69%74%2D%74%61%70%2D%68%69%67%68%6C%69%67%68%74%2D%63%6F%6C%6F%72%3A%20%74%72%61%6E%73%70%61%72%65%6E%74%3B%20%7D%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%62%6F%64%79%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%66%6F%6E%74%2D%66%61%6D%69%6C%79%3A%20%27%49%6E%74%65%72%27%2C%20%73%61%6E%73%2D%73%65%72%69%66%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%61%63%6B%67%72%6F%75%6E%64%3A%20%76%61%72%28%2D%2D%62%67%2D%64%61%72%6B%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%63%6F%6C%6F%72%3A%20%76%61%72%28%2D%2D%74%65%78%74%2D%6D%61%69%6E%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%68%65%69%67%68%74%3A%20%31%30%30%76%68%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%77%69%64%74%68%3A%20%31%30%30%76%77%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%6F%76%65%72%66%6C%6F%77%3A%20%68%69%64%64%65%6E%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%64%69%73%70%6C%61%79%3A%20%66%6C%65%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%66%6C%65%78%2D%64%69%72%65%63%74%69%6F%6E%3A%20%63%6F%6C%75%6D%6E%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2F%2A%20%2D%2D%2D%20%32%2E%20%4D%41%50%20%4C%41%59%45%52%20%2D%2D%2D%20%2A%2F%0A%20%20%20%20%20%20%20%20%23%6D%61%70%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%66%6C%65%78%3A%20%31%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%77%69%64%74%68%3A%20%31%30%30%25%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%7A%2D%69%6E%64%65%78%3A%20%31%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%61%63%6B%67%72%6F%75%6E%64%3A%20%23%30%38%30%38%30%38%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%66%69%6C%74%65%72%3A%20%73%61%74%75%72%61%74%65%28%31%2E%31%29%20%63%6F%6E%74%72%61%73%74%28%31%2E%31%29%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%2F%2A%20%43%75%73%74%6F%6D%20%54%69%6C%65%73%20%44%61%72%6B%20%4D%6F%64%65%20%4F%76%65%72%72%69%64%65%20%2A%2F%0A%20%20%20%20%20%20%20%20%2E%6C%65%61%66%6C%65%74%2D%6C%61%79%65%72%20%7B%20%66%69%6C%74%65%72%3A%20%62%72%69%67%68%74%6E%65%73%73%28%30%2E%38%29%20%68%75%65%2D%72%6F%74%61%74%65%28%31%38%30%64%65%67%29%20%69%6E%76%65%72%74%28%31%30%30%25%29%3B%20%7D%0A%20%20%20%20%20%20%20%20%2F%2A%20%46%69%78%20%66%6F%72%20%73%70%65%63%69%66%69%63%20%74%69%6C%65%20%70%72%6F%76%69%64%65%72%73%20%69%66%20%6E%65%65%64%65%64%2C%20%6C%6F%67%69%63%20%68%61%6E%64%6C%65%64%20%69%6E%20%4A%53%20%2A%2F%0A%0A%20%20%20%20%20%20%20%20%2F%2A%20%2D%2D%2D%20%33%2E%20%55%49%20%43%4F%4D%50%4F%4E%45%4E%54%53%20%2D%2D%2D%20%2A%2F%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%2F%2A%20%47%6C%61%73%73%20%48%65%61%64%65%72%20%2A%2F%0A%20%20%20%20%20%20%20%20%2E%61%70%70%2D%68%65%61%64%65%72%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%70%6F%73%69%74%69%6F%6E%3A%20%61%62%73%6F%6C%75%74%65%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%74%6F%70%3A%20%76%61%72%28%2D%2D%73%61%66%65%2D%74%6F%70%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%6C%65%66%74%3A%20%32%30%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%72%69%67%68%74%3A%20%32%30%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%68%65%69%67%68%74%3A%20%36%30%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%61%63%6B%67%72%6F%75%6E%64%3A%20%72%67%62%61%28%31%30%2C%20%31%30%2C%20%31%35%2C%20%30%2E%36%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%61%63%6B%64%72%6F%70%2D%66%69%6C%74%65%72%3A%20%62%6C%75%72%28%32%30%70%78%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%2D%77%65%62%6B%69%74%2D%62%61%63%6B%64%72%6F%70%2D%66%69%6C%74%65%72%3A%20%62%6C%75%72%28%32%30%70%78%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%72%64%65%72%2D%72%61%64%69%75%73%3A%20%76%61%72%28%2D%2D%72%61%64%69%75%73%2D%6D%64%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%72%64%65%72%3A%20%76%61%72%28%2D%2D%67%6C%61%73%73%2D%62%6F%72%64%65%72%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%7A%2D%69%6E%64%65%78%3A%20%31%30%30%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%64%69%73%70%6C%61%79%3A%20%66%6C%65%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%61%6C%69%67%6E%2D%69%74%65%6D%73%3A%20%63%65%6E%74%65%72%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%6A%75%73%74%69%66%79%2D%63%6F%6E%74%65%6E%74%3A%20%73%70%61%63%65%2D%62%65%74%77%65%65%6E%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%70%61%64%64%69%6E%67%3A%20%30%20%32%30%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%78%2D%73%68%61%64%6F%77%3A%20%30%20%31%30%70%78%20%33%30%70%78%20%72%67%62%61%28%30%2C%30%2C%30%2C%30%2E%35%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%74%72%61%6E%73%66%6F%72%6D%3A%20%74%72%61%6E%73%6C%61%74%65%59%28%30%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%74%72%61%6E%73%69%74%69%6F%6E%3A%20%76%61%72%28%2D%2D%61%6E%69%6D%2D%73%70%65%65%64%29%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2E%62%72%61%6E%64%2D%6C%6F%67%6F%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%66%6F%6E%74%2D%66%61%6D%69%6C%79%3A%20%27%52%61%6A%64%68%61%6E%69%27%2C%20%73%61%6E%73%2D%73%65%72%69%66%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%66%6F%6E%74%2D%77%65%69%67%68%74%3A%20%37%30%30%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%66%6F%6E%74%2D%73%69%7A%65%3A%20%31%2E%32%35%72%65%6D%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%6C%65%74%74%65%72%2D%73%70%61%63%69%6E%67%3A%20%32%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%61%63%6B%67%72%6F%75%6E%64%3A%20%6C%69%6E%65%61%72%2D%67%72%61%64%69%65%6E%74%28%39%30%64%65%67%2C%20%23%66%66%66%2C%20%76%61%72%28%2D%2D%70%72%69%6D%61%72%79%29%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%2D%77%65%62%6B%69%74%2D%62%61%63%6B%67%72%6F%75%6E%64%2D%63%6C%69%70%3A%20%74%65%78%74%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%2D%77%65%62%6B%69%74%2D%74%65%78%74%2D%66%69%6C%6C%2D%63%6F%6C%6F%72%3A%20%74%72%61%6E%73%70%61%72%65%6E%74%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2E%73%74%61%74%75%73%2D%70%69%6C%6C%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%64%69%73%70%6C%61%79%3A%20%66%6C%65%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%61%6C%69%67%6E%2D%69%74%65%6D%73%3A%20%63%65%6E%74%65%72%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%67%61%70%3A%20%38%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%66%6F%6E%74%2D%73%69%7A%65%3A%20%30%2E%37%35%72%65%6D%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%61%63%6B%67%72%6F%75%6E%64%3A%20%72%67%62%61%28%30%2C%20%32%34%32%2C%20%32%35%35%2C%20%30%2E%31%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%70%61%64%64%69%6E%67%3A%20%36%70%78%20%31%32%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%72%64%65%72%2D%72%61%64%69%75%73%3A%20%32%30%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%72%64%65%72%3A%20%31%70%78%20%73%6F%6C%69%64%20%72%67%62%61%28%30%2C%20%32%34%32%2C%20%32%35%35%2C%20%30%2E%32%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%63%6F%6C%6F%72%3A%20%76%61%72%28%2D%2D%70%72%69%6D%61%72%79%29%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2E%73%74%61%74%75%73%2D%64%6F%74%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%77%69%64%74%68%3A%20%38%70%78%3B%20%68%65%69%67%68%74%3A%20%38%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%61%63%6B%67%72%6F%75%6E%64%3A%20%76%61%72%28%2D%2D%70%72%69%6D%61%72%79%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%72%64%65%72%2D%72%61%64%69%75%73%3A%20%35%30%25%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%78%2D%73%68%61%64%6F%77%3A%20%30%20%30%20%31%30%70%78%20%76%61%72%28%2D%2D%70%72%69%6D%61%72%79%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%61%6E%69%6D%61%74%69%6F%6E%3A%20%70%75%6C%73%65%20%32%73%20%69%6E%66%69%6E%69%74%65%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2F%2A%20%46%6C%6F%61%74%69%6E%67%20%4E%61%76%20%2A%2F%0A%20%20%20%20%20%20%20%20%2E%6E%61%76%2D%64%6F%63%6B%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%70%6F%73%69%74%69%6F%6E%3A%20%61%62%73%6F%6C%75%74%65%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%74%74%6F%6D%3A%20%63%61%6C%63%28%76%61%72%28%2D%2D%73%61%66%65%2D%62%6F%74%74%6F%6D%29%20%2B%20%32%30%70%78%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%6C%65%66%74%3A%20%35%30%25%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%74%72%61%6E%73%66%6F%72%6D%3A%20%74%72%61%6E%73%6C%61%74%65%58%28%2D%35%30%25%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%61%63%6B%67%72%6F%75%6E%64%3A%20%72%67%62%61%28%31%35%2C%20%31%35%2C%20%32%30%2C%20%30%2E%38%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%61%63%6B%64%72%6F%70%2D%66%69%6C%74%65%72%3A%20%62%6C%75%72%28%32%35%70%78%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%70%61%64%64%69%6E%67%3A%20%31%30%70%78%20%32%30%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%72%64%65%72%2D%72%61%64%69%75%73%3A%20%33%30%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%72%64%65%72%3A%20%76%61%72%28%2D%2D%67%6C%61%73%73%2D%62%6F%72%64%65%72%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%64%69%73%70%6C%61%79%3A%20%66%6C%65%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%67%61%70%3A%20%32%35%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%7A%2D%69%6E%64%65%78%3A%20%31%30%30%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%78%2D%73%68%61%64%6F%77%3A%20%30%20%31%35%70%78%20%34%30%70%78%20%72%67%62%61%28%30%2C%30%2C%30%2C%30%2E%36%29%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2E%6E%61%76%2D%62%74%6E%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%61%63%6B%67%72%6F%75%6E%64%3A%20%6E%6F%6E%65%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%72%64%65%72%3A%20%6E%6F%6E%65%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%63%6F%6C%6F%72%3A%20%76%61%72%28%2D%2D%74%65%78%74%2D%6D%75%74%65%64%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%66%6F%6E%74%2D%73%69%7A%65%3A%20%31%2E%32%72%65%6D%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%63%75%72%73%6F%72%3A%20%70%6F%69%6E%74%65%72%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%74%72%61%6E%73%69%74%69%6F%6E%3A%20%61%6C%6C%20%30%2E%33%73%20%65%61%73%65%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%70%6F%73%69%74%69%6F%6E%3A%20%72%65%6C%61%74%69%76%65%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%77%69%64%74%68%3A%20%34%30%70%78%3B%20%68%65%69%67%68%74%3A%20%34%30%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%64%69%73%70%6C%61%79%3A%20%66%6C%65%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%61%6C%69%67%6E%2D%69%74%65%6D%73%3A%20%63%65%6E%74%65%72%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%6A%75%73%74%69%66%79%2D%63%6F%6E%74%65%6E%74%3A%20%63%65%6E%74%65%72%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%72%64%65%72%2D%72%61%64%69%75%73%3A%20%35%30%25%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2E%6E%61%76%2D%62%74%6E%2E%61%63%74%69%76%65%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%63%6F%6C%6F%72%3A%20%23%30%30%30%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%61%63%6B%67%72%6F%75%6E%64%3A%20%76%61%72%28%2D%2D%70%72%69%6D%61%72%79%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%78%2D%73%68%61%64%6F%77%3A%20%30%20%30%20%32%30%70%78%20%72%67%62%61%28%30%2C%20%32%34%32%2C%20%32%35%35%2C%20%30%2E%34%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%74%72%61%6E%73%66%6F%72%6D%3A%20%74%72%61%6E%73%6C%61%74%65%59%28%2D%31%30%70%78%29%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2E%6E%61%76%2D%62%74%6E%3A%68%6F%76%65%72%3A%6E%6F%74%28%2E%61%63%74%69%76%65%29%20%7B%20%63%6F%6C%6F%72%3A%20%23%66%66%66%3B%20%7D%0A%0A%20%20%20%20%20%20%20%20%2F%2A%20%49%6E%66%6F%20%53%68%65%65%74%20%28%4D%6F%64%65%72%6E%20%42%6F%74%74%6F%6D%20%53%68%65%65%74%29%20%2A%2F%0A%20%20%20%20%20%20%20%20%2E%69%6E%66%6F%2D%73%68%65%65%74%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%70%6F%73%69%74%69%6F%6E%3A%20%61%62%73%6F%6C%75%74%65%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%74%74%6F%6D%3A%20%30%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%6C%65%66%74%3A%20%30%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%77%69%64%74%68%3A%20%31%30%30%25%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%6D%61%78%2D%68%65%69%67%68%74%3A%20%38%35%76%68%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%61%63%6B%67%72%6F%75%6E%64%3A%20%6C%69%6E%65%61%72%2D%67%72%61%64%69%65%6E%74%28%31%38%30%64%65%67%2C%20%72%67%62%61%28%32%30%2C%20%32%35%2C%20%33%33%2C%20%30%2E%39%38%29%20%30%25%2C%20%23%30%35%30%35%30%35%20%31%30%30%25%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%61%63%6B%64%72%6F%70%2D%66%69%6C%74%65%72%3A%20%62%6C%75%72%28%34%30%70%78%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%72%64%65%72%2D%74%6F%70%2D%6C%65%66%74%2D%72%61%64%69%75%73%3A%20%33%30%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%72%64%65%72%2D%74%6F%70%2D%72%69%67%68%74%2D%72%61%64%69%75%73%3A%20%33%30%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%72%64%65%72%2D%74%6F%70%3A%20%31%70%78%20%73%6F%6C%69%64%20%72%67%62%61%28%30%2C%20%32%34%32%2C%20%32%35%35%2C%20%30%2E%33%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%7A%2D%69%6E%64%65%78%3A%20%32%30%30%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%74%72%61%6E%73%66%6F%72%6D%3A%20%74%72%61%6E%73%6C%61%74%65%59%28%31%31%30%25%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%74%72%61%6E%73%69%74%69%6F%6E%3A%20%74%72%61%6E%73%66%6F%72%6D%20%30%2E%36%73%20%63%75%62%69%63%2D%62%65%7A%69%65%72%28%30%2E%31%39%2C%20%31%2C%20%30%2E%32%32%2C%20%31%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%64%69%73%70%6C%61%79%3A%20%66%6C%65%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%66%6C%65%78%2D%64%69%72%65%63%74%69%6F%6E%3A%20%63%6F%6C%75%6D%6E%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%78%2D%73%68%61%64%6F%77%3A%20%30%20%2D%32%30%70%78%20%38%30%70%78%20%72%67%62%61%28%30%2C%30%2C%30%2C%30%2E%38%29%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2E%69%6E%66%6F%2D%73%68%65%65%74%2E%6F%70%65%6E%20%7B%20%74%72%61%6E%73%66%6F%72%6D%3A%20%74%72%61%6E%73%6C%61%74%65%59%28%30%29%3B%20%7D%0A%0A%20%20%20%20%20%20%20%20%2E%73%68%65%65%74%2D%64%72%61%67%2D%68%61%6E%64%6C%65%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%77%69%64%74%68%3A%20%31%30%30%25%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%68%65%69%67%68%74%3A%20%32%34%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%64%69%73%70%6C%61%79%3A%20%66%6C%65%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%6A%75%73%74%69%66%79%2D%63%6F%6E%74%65%6E%74%3A%20%63%65%6E%74%65%72%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%61%6C%69%67%6E%2D%69%74%65%6D%73%3A%20%63%65%6E%74%65%72%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%63%75%72%73%6F%72%3A%20%67%72%61%62%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2E%68%61%6E%64%6C%65%2D%62%61%72%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%77%69%64%74%68%3A%20%34%30%70%78%3B%20%68%65%69%67%68%74%3A%20%34%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%61%63%6B%67%72%6F%75%6E%64%3A%20%72%67%62%61%28%32%35%35%2C%32%35%35%2C%32%35%35%2C%30%2E%32%29%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%62%6F%72%64%65%72%2D%72%61%64%69%75%73%3A%20%32%70%78%3B%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20%2E%73%68%65%65%74%2D%63%6F%6E%74%65%6E%74%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%70%61%64%64%69%6E%67%3A%20%30%20%32%34%70%78%20%34%30%70%78%20%32%34%70%78%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%6F%76%65%72%66%6C%6F%77%2D%79%3A%20%61%75%74%6F%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%73%63%72%6F%6C%6C%62%61%72%2D%77%69%64%74%68%3A%20%6E%6F%6E%65%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20%20%20%20%20%2E%73%68%65%65%74%2D%63%6F%6E%74%65%6E%74%3A%3A%2D%77%65%62%6B%69%74%2D%73%63%72%6F%6C%6C%62%61%72%20%7B%20%64%69%73%70%6C%61%79%3A%20%6E%6F%6E%65%3B%20%7D%0A%0A%20%2
+    <style>
+        /* --- 1. CORE VARIABLES & RESET --- */
+        :root {
+            --bg-dark: #050505;
+            --bg-panel: rgba(20, 25, 35, 0.85);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+            --primary: #00f2ff; /* Cyber Cyan */
+            --secondary: #4d79ff; /* Deep Blue */
+            --accent: #ff0055; /* Alert Red/Pink */
+            --text-main: #ffffff;
+            --text-muted: #8b9bb4;
+            --shadow-glow: 0 0 20px rgba(0, 242, 255, 0.15);
+            --radius-xl: 24px;
+            --radius-md: 16px;
+            --safe-top: env(safe-area-inset-top, 20px);
+            --safe-bottom: env(safe-area-inset-bottom, 20px);
+            --anim-speed: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-main);
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- 2. MAP LAYER --- */
+        #map {
+            flex: 1;
+            width: 100%;
+            z-index: 1;
+            background: #080808;
+            filter: saturate(1.1) contrast(1.1);
+        }
+        
+        /* Custom Tiles Dark Mode Override */
+        .leaflet-layer { filter: brightness(0.8) hue-rotate(180deg) invert(100%); }
+        /* Fix for specific tile providers if needed, logic handled in JS */
+
+        /* --- 3. UI COMPONENTS --- */
+        
+        /* Glass Header */
+        .app-header {
+            position: absolute;
+            top: var(--safe-top);
+            left: 20px;
+            right: 20px;
+            height: 60px;
+            background: rgba(10, 10, 15, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: var(--radius-md);
+            border: var(--glass-border);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transform: translateY(0);
+            transition: var(--anim-speed);
+        }
+
+        .brand-logo {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .status-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.75rem;
+            background: rgba(0, 242, 255, 0.1);
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 242, 255, 0.2);
+            color: var(--primary);
+        }
+
+        .status-dot {
+            width: 8px; height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary);
+            animation: pulse 2s infinite;
+        }
+
+        /* Floating Nav */
+        .nav-dock {
+            position: absolute;
+            bottom: calc(var(--safe-bottom) + 20px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(15, 15, 20, 0.8);
+            backdrop-filter: blur(25px);
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: var(--glass-border);
+            display: flex;
+            gap: 25px;
+            z-index: 100;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            width: 40px; height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .nav-btn.active {
+            color: #000;
+            background: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
+            transform: translateY(-10px);
+        }
+
+        .nav-btn:hover:not(.active) { color: #fff; }
+
+        /* Info Sheet (Modern Bottom Sheet) */
+        .info-sheet {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            max-height: 85vh;
+            background: linear-gradient(180deg, rgba(20, 25, 33, 0.98) 0%, #050505 100%);
+            backdrop-filter: blur(40px);
+            border-top-left-radius: 30px;
+            border-top-right-radius: 30px;
+            border-top: 1px solid rgba(0, 242, 255, 0.3);
+            z-index: 200;
+            transform: translateY(110%);
+            transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 -20px 80px rgba(0,0,0,0.8);
+        }
+
+        .info-sheet.open { transform: translateY(0); }
+
+        .sheet-drag-handle {
+            width: 100%;
+            height: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: grab;
+        }
+
+        .handle-bar {
+            width: 40px; height: 4px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 2px;
+        }
+
+        .sheet-content {
+            padding: 0 24px 40px 24px;
+            overflow-y: auto;
+            scrollbar-width: none;
+        }
+        
+        .sheet-content::-webkit-scrollbar { display: none; }
+
+        /* City Details Typography */
+        .city-header {
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .city-name {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            line-height: 1;
+            margin-bottom: 5px;
+            background: linear-gradient(180deg, #fff, #a0a0a0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .city-meta {
+            font-size: 0.85rem;
+            color: var(--primary);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        /* Live Data Widget */
+        .live-widget {
+            background: rgba(0, 242, 255, 0.05);
+            border: 1px solid rgba(0, 242, 255, 0.1);
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .live-item { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text-muted); }
+        .live-val { color: #fff; font-weight: 600; font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.03);
+            padding: 16px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
+        }
+
+        .score-circle {
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            border: 3px solid var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px auto;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--primary);
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.2);
+        }
+
+        .stat-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* Content Blocks */
+        .info-block {
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInUp 0.5s forwards;
+        }
+
+        .info-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            color: var(--secondary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .info-text {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #d0d0d0;
+            font-weight: 300;
+        }
+
+        .hero-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            filter: grayscale(0.2);
+            transition: filter 0.3s;
+        }
+        .hero-img:hover { filter: grayscale(0); }
+
+        /* --- 4. MARKERS & ANIMATIONS --- */
+        .marker-icon {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            border-radius: 4px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            text-align: center;
+            padding: 2px 6px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            box-shadow: 0 0 15px var(--primary);
+            transition: all 0.3s;
+        }
+        
+        .marker-dot {
+            width: 16px; height: 16px;
+            background: var(--primary);
+            border: 3px solid #fff;
+            border-radius: 50%;
+            position: absolute;
+            top: 25px; left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+
+        /* Loading Screen */
+        #loader {
+            position: fixed; inset: 0;
+            background: #000;
+            z-index: 9999;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            transition: opacity 0.8s;
+        }
+        
+        .loader-bar {
+            width: 200px; height: 2px;
+            background: rgba(255,255,255,0.1);
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .loader-progress {
+            position: absolute; top: 0; left: 0;
+            height: 100%; width: 0%;
+            background: var(--primary);
+            transition: width 0.2s;
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        .loader-text {
+            font-family: 'Rajdhani'; letter-spacing: 4px;
+            color: var(--primary); text-transform: uppercase; font-size: 0.9rem;
+        }
+
+        /* Responsive Tablet/Desktop */
+        @media (min-width: 768px) {
+            .info-sheet {
+                width: 400px;
+                left: auto; right: 30px; bottom: 30px; top: 90px;
+                max-height: none;
+                border-radius: 20px;
+                transform: translateX(120%);
+                border: var(--glass-border);
+            }
+            .info-sheet.open { transform: translateX(0); }
+            .sheet-drag-handle { display: none; }
+            .sheet-content { padding-top: 30px; }
+            .nav-dock { bottom: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loader">
+        <div class="loader-text">INITIALIZING SYSTEM...</div>
+        <div class="loader-bar"><div class="loader-progress" id="loadBar"></div></div>
+    </div>
+
+    <header class="app-header">
+        <div class="brand-logo"><i class="fas fa-map-marked-alt"></i> IND<span style="color:var(--primary)">TOLERANCE</span></div>
+        <div class="status-pill">
+            <div class="status-dot"></div>
+            <span>LIVE DATA</span>
+        </div>
+    </header>
+
+    <div id="map"></div>
+
+    <nav class="nav-dock">
+        <button class="nav-btn active" id="btnMap" title="Peta"><i class="fas fa-globe-asia"></i></button>
+        <button class="nav-btn" id="btnStats" title="Statistik"><i class="fas fa-chart-pie"></i></button>
+        <button class="nav-btn" id="btnInfo" title="Info"><i class="fas fa-info-circle"></i></button>
+        <button class="nav-btn" id="btnLoc" title="Lokasi Saya"><i class="fas fa-location-arrow"></i></button>
+    </nav>
+
+    <div class="info-sheet" id="infoSheet">
+        <div class="sheet-drag-handle"><div class="handle-bar"></div></div>
+        <div class="sheet-content" id="sheetContent">
+            </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
+    <script>
+        /**
+         * CONFIGURATION & DATA SOURCE
+         * Data based on Setara Institute (Indeks Kota Toleran) & BPS
+         */
+        const CONFIG = {
+            initialZoom: 5,
+            center: [-2.5489, 118.0149], // Center of Indo
+            // OpenMeteo Free API (No Key Required for valid data fetch)
+            weatherApi: 'https://api.open-meteo.com/v1/forecast?current_weather=true',
+        };
+
+        const CITIES = [
+            {
+                id: 'skw',
+                name: "Singkawang",
+                province: "Kalimantan Barat",
+                coords: [0.9124, 108.9866],
+                score: 98,
+                rank: "Peringkat #1 (IKT)",
+                desc: "Dikenal sebagai 'Kota Seribu Kuil'. Harmoni etnis Tionghoa, Dayak, dan Melayu sangat kuat.",
+                food: "Choipan & Bubur Pedas",
+                img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdBXFYeMuv3pueD7MfwPF_Zr3nXWCyMeycwNeSfIcY8E96Z2iRi-gz8SmdTmQPAvckcqgT8iBItFEWp74rWMH7hJjJrqyNJmEdYOCC1g&s=10"
+            },
+            {
+                id: 'slt',
+                name: "Salatiga",
+                province: "Jawa Tengah",
+                coords: [-7.3305, 110.5084],
+                score: 96,
+                rank: "Peringkat #2 (IKT)",
+                desc: "Kota pendidikan dengan julukan 'Indonesia Mini'. Kampus UKSW menjadi pusat pertemuan beragam etnis dari Sabang sampai Merauke.",
+                food: "Sate Sapi Suruh",
+                img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRO0FUkZQ-aMPtHw-55SsSYvSuWarw4HO5c_G46lMiyzw&s=10"
+            },
+            {
+                id: 'mnd',
+                name: "Manado",
+                province: "Sulawesi Utara",
+                coords: [1.4748, 124.8428],
+                score: 94,
+                rank: "Sangat Toleran",
+                desc: "Semboyan 'Torang Samua Basudara' menjadi landasan hidup. Toleransi antar umat beragama terlihat sangat jelas saat hari raya besar.",
+                food: "Tinutuan (Bubur Manado)",
+                img: "https://upload.wikimedia.org/wikipedia/commons/9/93/Tinutuan_bubur_Manado.JPG"
+            },
+            {
+                id: 'kpg',
+                name: "Kupang",
+                province: "Nusa Tenggara Timur",
+                coords: [-10.1772, 123.6070],
+                score: 92,
+                rank: "Sangat Toleran",
+                desc: "Dikenal sebagai 'Kota Kasih'. Solidaritas antar agama sangat tinggi, di mana pemuda gereja menjaga masjid saat sholat Ied, dan sebaliknya.",
+                food: "Se'i Sapi",
+                img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPjI3mmmmhuQLM5J4oTOjq_jqIter0L4ALlf9OZ7KSMdV5yNSOWDaunwU&s=10"
+            },
+            {
+                id: 'dps',
+                name: "Denpasar",
+                province: "Bali",
+                coords: [-8.6705, 115.2126],
+                score: 90,
+                rank: "Toleran Tinggi",
+                desc: "Filosofi 'Tri Hita Karana' menciptakan keseimbangan. Masyarakat Hindu Bali sangat terbuka terhadap pendatang dan keberagaman.",
+                food: "Ayam Betutu",
+                img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUEJ_VMhC6U_Zz_Ca1W5EsJebxjjrKvWn31xKDvQ3-cCmk9uLgpzT56OI&s=10"
+            }
+        ];
+
+        /**
+         * APP CONTROLLER
+         * Class-based structure for cleaner logic
+         */
+        class App {
+            constructor() {
+                this.map = null;
+                this.markers = [];
+                this.activeCity = null;
+                this.init();
+            }
+
+            async init() {
+                this.simulateLoading();
+                this.initMap();
+                this.renderMarkers();
+                this.setupEvents();
+            }
+
+            simulateLoading() {
+                const bar = document.getElementById('loadBar');
+                const loader = document.getElementById('loader');
+                let w = 0;
+                const int = setInterval(() => {
+                    w += Math.random() * 20;
+                    if(w > 100) w = 100;
+                    bar.style.width = w + '%';
+                    if(w === 100) {
+                        clearInterval(int);
+                        setTimeout(() => {
+                            loader.style.opacity = '0';
+                            setTimeout(() => loader.remove(), 800);
+                        }, 500);
+                    }
+                }, 200);
+            }
+
+            initMap() {
+                // Leaflet Setup
+                this.map = L.map('map', {
+                    zoomControl: false,
+                    attributionControl: false,
+                    center: CONFIG.center,
+                    zoom: CONFIG.initialZoom
+                });
+
+                // Using CartoDB Dark Matter for "Pro 2026" look
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+                    maxZoom: 19,
+                    subdomains: 'abcd'
+                }).addTo(this.map);
+            }
+
+            renderMarkers() {
+                CITIES.forEach(city => {
+                    const icon = L.divIcon({
+                        className: 'custom-pin',
+                        html: `
+                            <div class="marker-dot"></div>
+                            <div class="marker-icon">${city.name}</div>
+                        `,
+                        iconSize: [100, 40],
+                        iconAnchor: [50, 40]
+                    });
+
+                    const marker = L.marker(city.coords, { icon: icon }).addTo(this.map);
+                    
+                    marker.on('click', () => {
+                        this.focusCity(city);
+                    });
+                    
+                    this.markers.push(marker);
+                });
+            }
+
+            async focusCity(city) {
+                this.activeCity = city;
+                
+                // 1. Fly to location
+                this.map.flyTo(city.coords, 12, {
+                    animate: true,
+                    duration: 1.5
+                });
+
+                // 2. Fetch Live Weather Data (Validasi Data Real-time)
+                const weatherData = await this.getWeatherData(city.coords[0], city.coords[1]);
+
+                // 3. Render Panel
+                this.renderPanel(city, weatherData);
+                
+                // 4. Open Sheet
+                document.getElementById('infoSheet').classList.add('open');
+            }
+
+            async getWeatherData(lat, lon) {
+                try {
+                    const res = await fetch(`${CONFIG.weatherApi}&latitude=${lat}&longitude=${lon}`);
+                    const data = await res.json();
+                    return {
+                        temp: data.current_weather.temperature,
+                        code: this.getWeatherDesc(data.current_weather.weathercode),
+                        wind: data.current_weather.windspeed
+                    };
+                } catch (e) {
+                    return { temp: '--', code: 'N/A', wind: '--' };
+                }
+            }
+
+            getWeatherDesc(code) {
+                // Simple mapping for WMO codes
+                if(code <= 3) return "Cerah / Berawan";
+                if(code <= 60) return "Gerimis";
+                if(code <= 80) return "Hujan";
+                return "Badai";
+            }
+
+            renderPanel(city, weather) {
+                const container = document.getElementById('sheetContent');
+                
+                // Staggered animation styles are in CSS
+                container.innerHTML = `
+                    <div class="city-header">
+                        <div>
+                            <div class="city-meta">${city.province}</div>
+                            <h2 class="city-name">${city.name}</h2>
+                        </div>
+                        <img src="https://flagcdn.com/24x18/id.png" alt="ID">
+                    </div>
+
+                    <div class="live-widget info-block" style="animation-delay: 0.1s">
+                        <div class="live-item"><i class="fas fa-temperature-high" style="color:#ffb700"></i> <span class="live-val">${weather.temp}°C</span></div>
+                        <div class="live-item"><i class="fas fa-cloud-sun" style="color:#00f2ff"></i> <span class="live-val">${weather.code}</span></div>
+                        <div class="live-item"><i class="fas fa-wind" style="color:#fff"></i> <span class="live-val">${weather.wind} km/h</span></div>
+                    </div>
+
+                    <img src="${city.img}" class="hero-img info-block" style="animation-delay: 0.2s">
+
+                    <div class="stats-grid info-block" style="animation-delay: 0.3s">
+                        <div class="stat-card">
+                            <div class="score-circle">${city.score}</div>
+                            <div class="stat-label">Skor Toleransi</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="score-circle" style="border-color:var(--secondary); color:var(--text-main); font-size:1.5rem">
+                                <i class="fas fa-award"></i>
+                            </div>
+                            <div class="stat-label">${city.rank}</div>
+                        </div>
+                    </div>
+
+                    <div class="info-block" style="animation-delay: 0.4s">
+                        <div class="info-title"><i class="fas fa-quote-left"></i> Konteks Sosial</div>
+                        <p class="info-text">${city.desc}</p>
+                    </div>
+
+                    <div class="info-block" style="animation-delay: 0.5s">
+                        <div class="info-title"><i class="fas fa-utensils"></i> Kuliner Unik</div>
+                        <p class="info-text">${city.food} - Simbol akulturasi budaya setempat.</p>
+                    </div>
+                    
+                    <div style="height: 50px;"></div> `;
+            }
+
+            setupEvents() {
+                // Navigation
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        // Reset active classes
+                        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                        e.currentTarget.classList.add('active');
+                        
+                        const id = e.currentTarget.id;
+                        if(id === 'btnMap') {
+                            document.getElementById('infoSheet').classList.remove('open');
+                            this.map.flyTo(CONFIG.center, CONFIG.initialZoom);
+                        }
+                        if(id === 'btnLoc') this.locateUser();
+                        if(id === 'btnStats') this.showGlobalStats();
+                        if(id === 'btnInfo') this.showAppInfo();
+                    });
+                });
+
+                // Close panel on map click
+                this.map.on('click', () => {
+                    document.getElementById('infoSheet').classList.remove('open');
+                });
+
+                // Swipe logic (Simple implementation)
+                let startY;
+                const handle = document.querySelector('.sheet-drag-handle');
+                handle.addEventListener('touchstart', e => startY = e.touches[0].clientY);
+                handle.addEventListener('touchmove', e => {
+                    const diff = e.touches[0].clientY - startY;
+                    if(diff > 50) document.getElementById('infoSheet').classList.remove('open');
+                });
+            }
+
+            locateUser() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(pos => {
+                        this.map.flyTo([pos.coords.latitude, pos.coords.longitude], 13);
+                        // Add temporary user marker
+                        L.marker([pos.coords.latitude, pos.coords.longitude]).addTo(this.map)
+                         .bindPopup("Lokasi Anda").openPopup();
+                    }, () => alert("Gagal mendeteksi lokasi"));
+                }
+            }
+
+            showGlobalStats() {
+                const container = document.getElementById('sheetContent');
+                container.innerHTML = `
+                    <h2 class="city-name" style="font-size:1.8rem">Statistik Nasional</h2>
+                    <div class="info-text" style="margin-bottom:20px">Data Rata-rata 2024-2025</div>
+                    <div class="stats-grid info-block" style="opacity:1">
+                        <div class="stat-card">
+                            <div class="score-circle">5.6</div>
+                            <div class="stat-label">Indeks Kerukunan</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="score-circle" style="border-color:#00ff88; color:#00ff88">94</div>
+                            <div class="stat-label">Kota Terdata</div>
+                        </div>
+                    </div>
+                    <div class="info-block" style="opacity:1">
+                        <p class="info-text">Tren toleransi di Indonesia menunjukkan peningkatan positif di kota-kota satelit. Singkawang dan Salatiga mempertahankan posisi teratas selama 3 tahun berturut-turut.</p>
+                    </div>
+                `;
+                document.getElementById('infoSheet').classList.add('open');
+            }
+
+            showAppInfo() {
+                const container = document.getElementById('sheetContent');
+                container.innerHTML = `
+                    <h2 class="city-name" style="font-size:1.8rem">Tentang Kami</h2>
+                    <div class="info-block" style="opacity:1; margin-top:20px">
+                        <div class="info-title">KELOMPOK PKN XID</div>
+                        <ul class="info-text" style="list-style:none; padding:0">
+                            <li style="margin-bottom:10px; border-bottom:1px solid #333; padding-bottom:10px">1. Ahmad Saif Hasan</li>
+                            <li style="margin-bottom:10px; border-bottom:1px solid #333; padding-bottom:10px">2. Rival Duta Utama</li>
+                            <li style="margin-bottom:10px; border-bottom:1px solid #333; padding-bottom:10px">3. Alfa A</li>
+                            <li>4. Panji Lintang Pangestu</li>
+                        </ul>
+                        <div style="margin-top:30px; font-size:0.8rem; color:var(--text-muted); text-align:center">
+                            Versi 2.0.1 (Build 2026)<br>
+                            Powered by Leaflet & Open-Meteo API
+                        </div>
+                    </div>
+                `;
+                document.getElementById('infoSheet').classList.add('open');
+            }
+        }
+
+        // Initialize Application
+        document.addEventListener('DOMContentLoaded', () => {
+            const app = new App();
+        });
+
+    </script>
+</body>
+</html>

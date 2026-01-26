@@ -5,35 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=no">
     <meta name="theme-color" content="#050505">
     <meta name="description" content="Peta Interaktif Toleransi Indonesia - Studi Kasus 2026">
-    <title>TUGAS PKN</title>
+    <title>Toleransi Indonesia | Peta Interaktif Budaya & Harmoni</title>
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/2.0.0/Control.FullScreen.css" />
 
     <style>
         /* --- 1. CORE VARIABLES & RESET --- */
         :root {
             --bg-dark: #050505;
-            --bg-panel: rgba(20, 25, 35, 0.85);
-            --glass-border: 1px solid rgba(255, 255, 255, 0.08);
-            --primary: #00f2ff; /* Cyber Cyan */
-            --secondary: #4d79ff; /* Deep Blue */
-            --accent: #ff0055; /* Alert Red/Pink */
+            --bg-panel: rgba(15, 20, 30, 0.92);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+            --primary: #00f2ff;
+            --primary-dark: #00c2cc;
+            --secondary: #4d79ff;
+            --accent: #ff3366;
+            --success: #00ff9d;
+            --warning: #ffb300;
             --text-main: #ffffff;
-            --text-muted: #8b9bb4;
-            --shadow-glow: 0 0 20px rgba(0, 242, 255, 0.15);
-            --radius-xl: 24px;
-            --radius-md: 16px;
+            --text-muted: #a0b3d9;
+            --shadow-glow: 0 0 30px rgba(0, 242, 255, 0.25);
+            --radius-xl: 28px;
+            --radius-md: 18px;
+            --radius-sm: 12px;
             --safe-top: env(safe-area-inset-top, 20px);
             --safe-bottom: env(safe-area-inset-bottom, 20px);
-            --anim-speed: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            --anim-speed: 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            --sidebar-width: 420px;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent; 
+        }
         
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--bg-dark);
             color: var(--text-main);
             height: 100vh;
@@ -48,13 +59,19 @@
             flex: 1;
             width: 100%;
             z-index: 1;
-            background: #080808;
-            filter: saturate(1.1) contrast(1.1);
+            background: #080c14;
         }
         
-        /* Custom Tiles Dark Mode Override */
-        .leaflet-layer { filter: brightness(0.8) hue-rotate(180deg) invert(100%); }
-        /* Fix for specific tile providers if needed, logic handled in JS */
+        /* Dark map theme enhancement */
+        .leaflet-tile {
+            filter: brightness(0.8) contrast(1.1) hue-rotate(180deg) invert(1) hue-rotate(180deg);
+        }
+        
+        .leaflet-control-attribution {
+            background: rgba(0,0,0,0.7) !important;
+            color: var(--text-muted) !important;
+            font-size: 11px !important;
+        }
 
         /* --- 3. UI COMPONENTS --- */
         
@@ -62,80 +79,405 @@
         .app-header {
             position: absolute;
             top: var(--safe-top);
-            left: 20px;
-            right: 20px;
-            height: 60px;
-            background: rgba(10, 10, 15, 0.6);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            left: 24px;
+            right: 24px;
+            height: 68px;
+            background: rgba(10, 15, 25, 0.75);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
             border-radius: var(--radius-md);
             border: var(--glass-border);
-            z-index: 100;
+            z-index: 1000;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            padding: 0 24px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.5);
             transform: translateY(0);
             transition: var(--anim-speed);
+        }
+
+        .brand-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
         }
 
         .brand-logo {
             font-family: 'Rajdhani', sans-serif;
             font-weight: 700;
-            font-size: 1.25rem;
-            letter-spacing: 2px;
-            background: linear-gradient(90deg, #fff, var(--primary));
+            font-size: 1.5rem;
+            letter-spacing: 1.5px;
+            background: linear-gradient(90deg, #fff 0%, var(--primary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-logo i {
+            font-size: 1.3rem;
+            -webkit-text-fill-color: var(--primary);
+        }
+
+        .project-tag {
+            font-size: 0.75rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            padding: 4px 12px;
+            border-radius: 20px;
+            color: #000;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
         }
 
         .status-pill {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 0.75rem;
+            gap: 10px;
+            font-size: 0.8rem;
             background: rgba(0, 242, 255, 0.1);
-            padding: 6px 12px;
+            padding: 8px 16px;
             border-radius: 20px;
-            border: 1px solid rgba(0, 242, 255, 0.2);
+            border: 1px solid rgba(0, 242, 255, 0.25);
             color: var(--primary);
+            font-weight: 600;
         }
 
         .status-dot {
-            width: 8px; height: 8px;
+            width: 10px; 
+            height: 10px;
             background: var(--primary);
             border-radius: 50%;
-            box-shadow: 0 0 10px var(--primary);
+            box-shadow: 0 0 15px var(--primary);
             animation: pulse 2s infinite;
         }
 
-        /* Floating Nav */
+        /* Control Panel */
+        .control-panel {
+            position: absolute;
+            top: calc(var(--safe-top) + 84px);
+            right: 24px;
+            background: rgba(10, 15, 25, 0.75);
+            backdrop-filter: blur(25px);
+            border-radius: var(--radius-md);
+            border: var(--glass-border);
+            padding: 20px;
+            width: 300px;
+            z-index: 1000;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            display: none;
+        }
+
+        .control-panel.active {
+            display: block;
+            animation: slideIn 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .control-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .control-group {
+            margin-bottom: 20px;
+        }
+
+        .control-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+        }
+
+        .legend-color.excellent { background: var(--success); }
+        .legend-color.good { background: var(--primary); }
+        .legend-color.medium { background: var(--warning); }
+
+        /* Stats Overview */
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.05);
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .stat-value {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* City Info Sidebar */
+        .city-sidebar {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: var(--sidebar-width);
+            height: 100%;
+            background: linear-gradient(180deg, rgba(15, 20, 30, 0.98) 0%, #050505 100%);
+            backdrop-filter: blur(40px);
+            border-left: 1px solid rgba(0, 242, 255, 0.2);
+            z-index: 2000;
+            transform: translateX(100%);
+            transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: -20px 0 80px rgba(0,0,0,0.8);
+        }
+
+        .city-sidebar.open {
+            transform: translateX(0);
+        }
+
+        .sidebar-header {
+            padding: 30px 30px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .city-name {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            line-height: 1;
+            background: linear-gradient(180deg, #fff, #a0a0a0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .close-sidebar {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: var(--text-main);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .close-sidebar:hover {
+            background: rgba(255,255,255,0.2);
+            transform: rotate(90deg);
+        }
+
+        .city-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .city-province {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .city-score {
+            background: rgba(0, 242, 255, 0.15);
+            padding: 4px 12px;
+            border-radius: 20px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .sidebar-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) transparent;
+        }
+
+        .sidebar-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .sidebar-content::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 3px;
+        }
+
+        /* Content Blocks */
+        .content-section {
+            margin-bottom: 30px;
+            animation: fadeInUp 0.5s forwards;
+            opacity: 0;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .section-icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(0, 242, 255, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1rem;
+        }
+
+        .section-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-main);
+            flex: 1;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        .info-card {
+            background: rgba(255,255,255,0.03);
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s;
+        }
+
+        .info-card:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(0, 242, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .info-card-title {
+            font-size: 0.9rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+
+        .info-card-text {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+        }
+
+        .info-card-highlight {
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: var(--radius-sm);
+            margin-bottom: 20px;
+            filter: grayscale(0.2) contrast(1.1);
+            transition: all 0.5s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+
+        .hero-image:hover {
+            filter: grayscale(0) contrast(1.2);
+            transform: scale(1.02);
+        }
+
+        /* Floating Navigation */
         .nav-dock {
             position: absolute;
-            bottom: calc(var(--safe-bottom) + 20px);
+            bottom: calc(var(--safe-bottom) + 24px);
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(15, 15, 20, 0.8);
+            background: rgba(15, 20, 30, 0.85);
             backdrop-filter: blur(25px);
-            padding: 10px 20px;
-            border-radius: 30px;
+            padding: 12px 28px;
+            border-radius: 40px;
             border: var(--glass-border);
             display: flex;
-            gap: 25px;
-            z-index: 100;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+            gap: 30px;
+            z-index: 1000;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
         }
 
         .nav-btn {
             background: none;
             border: none;
             color: var(--text-muted);
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
-            width: 40px; height: 40px;
+            width: 50px;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -145,360 +487,570 @@
         .nav-btn.active {
             color: #000;
             background: var(--primary);
-            box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
+            box-shadow: 0 0 25px rgba(0, 242, 255, 0.5);
             transform: translateY(-10px);
         }
 
-        .nav-btn:hover:not(.active) { color: #fff; }
+        .nav-btn:hover:not(.active) {
+            color: #fff;
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-5px);
+        }
 
-        /* Info Sheet (Modern Bottom Sheet) */
-        .info-sheet {
+        .nav-tooltip {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            max-height: 85vh;
-            background: linear-gradient(180deg, rgba(20, 25, 33, 0.98) 0%, #050505 100%);
-            backdrop-filter: blur(40px);
-            border-top-left-radius: 30px;
-            border-top-right-radius: 30px;
-            border-top: 1px solid rgba(0, 242, 255, 0.3);
-            z-index: 200;
-            transform: translateY(110%);
-            transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 -20px 80px rgba(0,0,0,0.8);
-        }
-
-        .info-sheet.open { transform: translateY(0); }
-
-        .sheet-drag-handle {
-            width: 100%;
-            height: 24px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: grab;
-        }
-
-        .handle-bar {
-            width: 40px; height: 4px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 2px;
-        }
-
-        .sheet-content {
-            padding: 0 24px 40px 24px;
-            overflow-y: auto;
-            scrollbar-width: none;
-        }
-        
-        .sheet-content::-webkit-scrollbar { display: none; }
-
-        /* City Details Typography */
-        .city-header {
-            margin-bottom: 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-        }
-
-        .city-name {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            line-height: 1;
-            margin-bottom: 5px;
-            background: linear-gradient(180deg, #fff, #a0a0a0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .city-meta {
-            font-size: 0.85rem;
-            color: var(--primary);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            font-weight: 600;
-        }
-
-        /* Live Data Widget */
-        .live-widget {
-            background: rgba(0, 242, 255, 0.05);
-            border: 1px solid rgba(0, 242, 255, 0.1);
-            border-radius: 12px;
-            padding: 12px 16px;
-            margin-bottom: 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .live-item { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--text-muted); }
-        .live-val { color: #fff; font-weight: 600; font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; }
-
-        /* Stats Grid */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-
-        .stat-card {
-            background: rgba(255,255,255,0.03);
-            padding: 16px;
-            border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.05);
-            text-align: center;
-        }
-
-        .score-circle {
-            width: 60px; height: 60px;
-            border-radius: 50%;
-            border: 3px solid var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 10px auto;
-            font-family: 'Rajdhani', sans-serif;
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: var(--primary);
-            box-shadow: 0 0 15px rgba(0, 242, 255, 0.2);
-        }
-
-        .stat-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-
-        /* Content Blocks */
-        .info-block {
-            margin-bottom: 20px;
-            opacity: 0;
-            transform: translateY(10px);
-            animation: fadeInUp 0.5s forwards;
-        }
-
-        .info-title {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 1rem;
-            color: var(--secondary);
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            text-transform: uppercase;
-            font-weight: 700;
-        }
-
-        .info-text {
-            font-size: 0.95rem;
-            line-height: 1.6;
-            color: #d0d0d0;
-            font-weight: 300;
-        }
-
-        .hero-img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            border-radius: 12px;
-            margin-bottom: 12px;
-            filter: grayscale(0.2);
-            transition: filter 0.3s;
-        }
-        .hero-img:hover { filter: grayscale(0); }
-
-        /* --- 4. MARKERS & ANIMATIONS --- */
-        .marker-icon {
-            background: rgba(0, 0, 0, 0.8);
-            border: 2px solid var(--primary);
-            color: var(--primary);
-            border-radius: 4px;
-            font-family: 'Rajdhani', sans-serif;
-            font-weight: 700;
-            text-align: center;
-            padding: 2px 6px;
-            font-size: 0.8rem;
-            white-space: nowrap;
-            box-shadow: 0 0 15px var(--primary);
-            transition: all 0.3s;
-        }
-        
-        .marker-dot {
-            width: 16px; height: 16px;
-            background: var(--primary);
-            border: 3px solid #fff;
-            border-radius: 50%;
-            position: absolute;
-            top: 25px; left: 50%;
+            bottom: -35px;
+            left: 50%;
             transform: translateX(-50%);
-            box-shadow: 0 0 20px var(--primary);
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
         }
 
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
-        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+        .nav-btn:hover .nav-tooltip {
+            opacity: 1;
+        }
+
+        /* Search Bar */
+        .search-container {
+            position: absolute;
+            top: calc(var(--safe-top) + 84px);
+            left: 24px;
+            width: 320px;
+            z-index: 1000;
+            display: none;
+        }
+
+        .search-container.active {
+            display: block;
+            animation: slideInLeft 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .search-box {
+            width: 100%;
+            background: rgba(10, 15, 25, 0.85);
+            backdrop-filter: blur(25px);
+            border-radius: var(--radius-md);
+            border: var(--glass-border);
+            padding: 16px 20px;
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            outline: none;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        .search-box::placeholder {
+            color: var(--text-muted);
+        }
+
+        .search-results {
+            margin-top: 10px;
+            background: rgba(10, 15, 25, 0.95);
+            backdrop-filter: blur(25px);
+            border-radius: var(--radius-sm);
+            border: var(--glass-border);
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .search-result-item {
+            padding: 14px 20px;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .search-result-item:hover {
+            background: rgba(0, 242, 255, 0.1);
+        }
+
+        .result-name {
+            font-weight: 500;
+        }
+
+        .result-score {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
 
         /* Loading Screen */
         #loader {
-            position: fixed; inset: 0;
+            position: fixed;
+            inset: 0;
             background: #000;
             z-index: 9999;
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             transition: opacity 0.8s;
         }
         
+        .loader-logo {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            margin-bottom: 30px;
+            background: linear-gradient(90deg, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
         .loader-bar {
-            width: 200px; height: 2px;
+            width: 300px;
+            height: 3px;
             background: rgba(255,255,255,0.1);
             margin-top: 20px;
             position: relative;
             overflow: hidden;
+            border-radius: 3px;
         }
         
         .loader-progress {
-            position: absolute; top: 0; left: 0;
-            height: 100%; width: 0%;
-            background: var(--primary);
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
             transition: width 0.2s;
-            box-shadow: 0 0 10px var(--primary);
+            border-radius: 3px;
         }
 
         .loader-text {
-            font-family: 'Rajdhani'; letter-spacing: 4px;
-            color: var(--primary); text-transform: uppercase; font-size: 0.9rem;
+            font-family: 'Rajdhani';
+            letter-spacing: 3px;
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
         }
 
-        /* Responsive Tablet/Desktop */
-        @media (min-width: 768px) {
-            .info-sheet {
-                width: 400px;
-                left: auto; right: 30px; bottom: 30px; top: 90px;
-                max-height: none;
-                border-radius: 20px;
-                transform: translateX(120%);
-                border: var(--glass-border);
+        /* Marker Styles */
+        .custom-marker {
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            border-radius: 8px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            text-align: center;
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            box-shadow: 0 0 25px rgba(0, 242, 255, 0.5);
+            transition: all 0.3s;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .custom-marker::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 12px solid rgba(0, 0, 0, 0.9);
+        }
+
+        .custom-marker:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 35px rgba(0, 242, 255, 0.7);
+            z-index: 1000 !important;
+        }
+
+        .marker-pulse {
+            width: 20px;
+            height: 20px;
+            background: var(--primary);
+            border: 3px solid #fff;
+            border-radius: 50%;
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 25px var(--primary);
+            animation: pulse 2s infinite;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% { transform: translateX(-50%) scale(1); opacity: 1; }
+            50% { transform: translateX(-50%) scale(1.2); opacity: 0.7; }
+            100% { transform: translateX(-50%) scale(1); opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            :root {
+                --sidebar-width: 380px;
             }
-            .info-sheet.open { transform: translateX(0); }
-            .sheet-drag-handle { display: none; }
-            .sheet-content { padding-top: 30px; }
-            .nav-dock { bottom: 30px; }
+            
+            .nav-dock {
+                gap: 20px;
+                padding: 10px 20px;
+            }
+            
+            .nav-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --sidebar-width: 100%;
+            }
+            
+            .app-header {
+                left: 15px;
+                right: 15px;
+                padding: 0 15px;
+            }
+            
+            .brand-logo {
+                font-size: 1.2rem;
+            }
+            
+            .project-tag {
+                display: none;
+            }
+            
+            .nav-dock {
+                bottom: calc(var(--safe-bottom) + 15px);
+                gap: 15px;
+                padding: 8px 15px;
+            }
+            
+            .nav-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
+            }
+            
+            .city-sidebar {
+                border-left: none;
+                border-top: 1px solid rgba(0, 242, 255, 0.2);
+            }
+            
+            .search-container {
+                width: calc(100% - 30px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .app-header {
+                height: 60px;
+            }
+            
+            .status-pill {
+                padding: 6px 12px;
+                font-size: 0.7rem;
+            }
+            
+            .city-name {
+                font-size: 1.8rem;
+            }
+            
+            .sidebar-content {
+                padding: 20px;
+            }
+            
+            .nav-dock {
+                gap: 10px;
+            }
+        }
+
+        /* Fullscreen map fix */
+        .leaflet-control-fullscreen a {
+            background: rgba(10, 15, 25, 0.8) !important;
+            color: var(--primary) !important;
+            border-radius: 5px !important;
         }
     </style>
 </head>
 <body>
 
     <div id="loader">
-        <div class="loader-text">INITIALIZING SYSTEM...</div>
+        <div class="loader-logo">IND<span style="color:var(--primary)">TOLERANCE</span></div>
+        <div class="loader-text">MEMUAT DATA TOLERANSI INDONESIA</div>
         <div class="loader-bar"><div class="loader-progress" id="loadBar"></div></div>
     </div>
 
     <header class="app-header">
-        <div class="brand-logo"><i class="fas fa-map-marked-alt"></i> IND<span style="color:var(--primary)">TOLERANCE</span></div>
-        <div class="status-pill">
-            <div class="status-dot"></div>
-            <span>LIVE DATA</span>
+        <div class="brand-section">
+            <div class="brand-logo">
+                <i class="fas fa-globe-asia"></i>
+                <span>TOLERANSI INDONESIA</span>
+            </div>
+            <div class="project-tag">STUDI KASUS 2026</div>
+        </div>
+        
+        <div class="header-controls">
+            <div class="status-pill">
+                <div class="status-dot"></div>
+                <span>SISTEM AKTIF</span>
+            </div>
         </div>
     </header>
+
+    <div class="control-panel" id="controlPanel">
+        <div class="control-title">
+            <i class="fas fa-sliders-h"></i>
+            KONTROL PETA
+        </div>
+        
+        <div class="control-group">
+            <div class="control-label">LEGENDA KOTA</div>
+            <div class="legend-item">
+                <div class="legend-color excellent"></div>
+                <span>Toleransi Sangat Tinggi (90+)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color good"></div>
+                <span>Toleransi Tinggi (85-89)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color medium"></div>
+                <span>Toleransi Sedang (80-84)</span>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <div class="control-label">STATISTIK NASIONAL</div>
+            <div class="stats-overview">
+                <div class="stat-item">
+                    <div class="stat-value">6</div>
+                    <div class="stat-label">Kota</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">87.3</div>
+                    <div class="stat-label">Rata-rata</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">94</div>
+                    <div class="stat-label">Tertinggi</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">82</div>
+                    <div class="stat-label">Terendah</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="search-container" id="searchContainer">
+        <input type="text" class="search-box" id="searchBox" placeholder="Cari kota (Medan, Denpasar, Salatiga...)" autocomplete="off">
+        <div class="search-results" id="searchResults"></div>
+    </div>
 
     <div id="map"></div>
 
     <nav class="nav-dock">
-        <button class="nav-btn active" id="btnMap" title="Peta"><i class="fas fa-globe-asia"></i></button>
-        <button class="nav-btn" id="btnStats" title="Statistik"><i class="fas fa-chart-pie"></i></button>
-        <button class="nav-btn" id="btnInfo" title="Info"><i class="fas fa-info-circle"></i></button>
-        <button class="nav-btn" id="btnLoc" title="Lokasi Saya"><i class="fas fa-location-arrow"></i></button>
+        <button class="nav-btn active" id="btnMap" title="Peta">
+            <i class="fas fa-globe-asia"></i>
+            <div class="nav-tooltip">Peta</div>
+        </button>
+        <button class="nav-btn" id="btnSearch" title="Pencarian">
+            <i class="fas fa-search"></i>
+            <div class="nav-tooltip">Cari Kota</div>
+        </button>
+        <button class="nav-btn" id="btnLayers" title="Layer">
+            <i class="fas fa-layer-group"></i>
+            <div class="nav-tooltip">Kontrol Peta</div>
+        </button>
+        <button class="nav-btn" id="btnStats" title="Statistik">
+            <i class="fas fa-chart-bar"></i>
+            <div class="nav-tooltip">Statistik</div>
+        </button>
+        <button class="nav-btn" id="btnLoc" title="Lokasi Saya">
+            <i class="fas fa-location-arrow"></i>
+            <div class="nav-tooltip">Lokasi Saya</div>
+        </button>
+        <button class="nav-btn" id="btnInfo" title="Informasi">
+            <i class="fas fa-info-circle"></i>
+            <div class="nav-tooltip">Tentang</div>
+        </button>
     </nav>
 
-    <div class="info-sheet" id="infoSheet">
-        <div class="sheet-drag-handle"><div class="handle-bar"></div></div>
-        <div class="sheet-content" id="sheetContent">
+    <div class="city-sidebar" id="citySidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">
+                <h2 class="city-name" id="sidebarCityName">Kota</h2>
+                <button class="close-sidebar" id="closeSidebar">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
+            <div class="city-meta">
+                <div class="city-province">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span id="sidebarProvince">Provinsi</span>
+                </div>
+                <div class="city-score" id="sidebarScore">Skor: 0</div>
+            </div>
+        </div>
+        <div class="sidebar-content" id="sidebarContent">
+            <!-- Content akan diisi oleh JavaScript -->
+        </div>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/2.0.0/Control.FullScreen.js"></script>
     
     <script>
         /**
-         * CONFIGURATION & DATA SOURCE
-         * Data based on Setara Institute (Indeks Kota Toleran) & BPS
+         * TOLERANSI INDONESIA - PETA INTERAKTIF 2026
+         * Profesional Edition dengan data 6 kota lengkap
          */
+        
+        // Konfigurasi Aplikasi
         const CONFIG = {
-            initialZoom: 5,
-            center: [-2.5489, 118.0149], // Center of Indo
-            // OpenMeteo Free API (No Key Required for valid data fetch)
-            weatherApi: 'https://api.open-meteo.com/v1/forecast?current_weather=true',
+            initialZoom: 5.2,
+            center: [-2.5489, 118.0149],
+            mapStyle: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+            weatherApi: 'https://api.open-meteo.com/v1/forecast?current_weather=true&timezone=auto',
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
         };
 
+        // Data Kota Lengkap (6 kota sesuai input)
         const CITIES = [
             {
-                id: 'skw',
-                name: "Singkawang",
-                province: "Kalimantan Barat",
-                coords: [0.9124, 108.9866],
-                score: 98,
-                rank: "Peringkat #1 (IKT)",
-                desc: "Dikenal sebagai 'Kota Seribu Kuil'. Harmoni etnis Tionghoa, Dayak, dan Melayu sangat kuat.",
-                food: "Choipan & Bubur Pedas",
-                img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdBXFYeMuv3pueD7MfwPF_Zr3nXWCyMeycwNeSfIcY8E96Z2iRi-gz8SmdTmQPAvckcqgT8iBItFEWp74rWMH7hJjJrqyNJmEdYOCC1g&s=10"
+                id: 'medan',
+                name: "Medan",
+                province: "Sumatera Utara",
+                coords: [3.5952, 98.6722],
+                score: 85,
+                rank: "#4 Kota Toleran 2024",
+                food: "Lontong Medan",
+                iconic: "Istana Maimun",
+                desc: "Kota metropolitan terbesar di luar Jawa yang menjadi melting pot berbagai etnis dan budaya.",
+                toleransiAgama: "Menghormati keberadaan pemeluk agama lain dalam batas muamalah tanpa mencampuradukkan ritual ibadah.",
+                toleransiBudaya: "Kerukunan antar etnis (Batak, Melayu, Tionghoa) dalam interaksi ekonomi dan sosial dengan tetap menjaga prinsip syariat.",
+                image: "https://images.unsplash.com/photo-1593702275687-4d2e8b4c5e5a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                color: "good"
             },
             {
-                id: 'slt',
-                name: "Salatiga",
-                province: "Jawa Tengah",
-                coords: [-7.3305, 110.5084],
-                score: 96,
-                rank: "Peringkat #2 (IKT)",
-                desc: "Kota pendidikan dengan julukan 'Indonesia Mini'. Kampus UKSW menjadi pusat pertemuan beragam etnis dari Sabang sampai Merauke.",
-                food: "Sate Sapi Suruh",
-                img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRO0FUkZQ-aMPtHw-55SsSYvSuWarw4HO5c_G46lMiyzw&s=10"
+                id: 'jember',
+                name: "Jember",
+                province: "Jawa Timur",
+                coords: [-8.1845, 113.6681],
+                score: 82,
+                rank: "#6 Kota Toleran 2024",
+                food: "Prol Tape",
+                iconic: "Pantai Papuma",
+                desc: "Kota pendidikan dan budaya dengan akulturasi Jawa-Madura yang harmonis.",
+                toleransiAgama: "Terjaminnya keamanan dan keadilan bagi setiap warga negara tanpa memandang latar belakang agama sesuai koridor hukum yang berlaku.",
+                toleransiBudaya: "Peleburan budaya Jawa dan Madura yang mengedepankan etika bertetangga dan akhlakul karimah.",
+                image: "https://images.unsplash.com/photo-1548013146-72479768bada?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                color: "medium"
             },
             {
-                id: 'mnd',
-                name: "Manado",
-                province: "Sulawesi Utara",
-                coords: [1.4748, 124.8428],
-                score: 94,
-                rank: "Sangat Toleran",
-                desc: "Semboyan 'Torang Samua Basudara' menjadi landasan hidup. Toleransi antar umat beragama terlihat sangat jelas saat hari raya besar.",
-                food: "Tinutuan (Bubur Manado)",
-                img: "https://upload.wikimedia.org/wikipedia/commons/9/93/Tinutuan_bubur_Manado.JPG"
-            },
-            {
-                id: 'kpg',
-                name: "Kupang",
-                province: "Nusa Tenggara Timur",
-                coords: [-10.1772, 123.6070],
-                score: 92,
-                rank: "Sangat Toleran",
-                desc: "Dikenal sebagai 'Kota Kasih'. Solidaritas antar agama sangat tinggi, di mana pemuda gereja menjaga masjid saat sholat Ied, dan sebaliknya.",
-                food: "Se'i Sapi",
-                img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPjI3mmmmhuQLM5J4oTOjq_jqIter0L4ALlf9OZ7KSMdV5yNSOWDaunwU&s=10"
-            },
-            {
-                id: 'dps',
+                id: 'denpasar',
                 name: "Denpasar",
                 province: "Bali",
                 coords: [-8.6705, 115.2126],
                 score: 90,
-                rank: "Toleran Tinggi",
-                desc: "Filosofi 'Tri Hita Karana' menciptakan keseimbangan. Masyarakat Hindu Bali sangat terbuka terhadap pendatang dan keberagaman.",
+                rank: "#3 Kota Toleran 2024",
                 food: "Ayam Betutu",
-                img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUEJ_VMhC6U_Zz_Ca1W5EsJebxjjrKvWn31xKDvQ3-cCmk9uLgpzT56OI&s=10"
+                iconic: "Monumen Bajra Sandhi",
+                desc: "Ibu kota Bali yang memadukan tradisi Hindu dengan modernitas dalam kehidupan harmonis.",
+                toleransiAgama: "Praktik hidup berdampingan dengan cara tidak mengganggu hari besar masing-masing dan fokus pada kerja sama urusan duniawi.",
+                toleransiBudaya: "Menghargai aturan adat setempat selama tidak bertentangan dengan prinsip dasar keyakinan individu.",
+                image: "https://images.unsplash.com/photo-1537953773345-d172ccf13cf1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                color: "excellent"
+            },
+            {
+                id: 'singkawang',
+                name: "Singkawang",
+                province: "Kalimantan Barat",
+                coords: [0.9082, 108.9848],
+                score: 94,
+                rank: "#1 Kota Toleran 2024",
+                food: "Choipan",
+                iconic: "Vihara Tri Dharma Bumi Raya",
+                desc: "Kota dengan populasi Tionghoa terbesar di Indonesia yang hidup harmonis dengan Dayak dan Melayu.",
+                toleransiAgama: "Menjaga perdamaian dan hak-hak sipil non-muslim yang tidak memusuhi Islam (Kafir Mu'ahad) sesuai tuntunan syar'i.",
+                toleransiBudaya: "Harmonisasi masyarakat heterogen melalui sikap jujur dalam berdagang dan saling menghargai ruang publik.",
+                image: "https://images.unsplash.com/photo-1559526324-593bc073d938?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                color: "excellent"
+            },
+            {
+                id: 'ambon',
+                name: "Ambon",
+                province: "Maluku",
+                coords: [-3.6954, 128.1810],
+                score: 83,
+                rank: "#5 Kota Toleran 2024",
+                food: "Papeda & Ikan Kuah Kuning",
+                iconic: "Jembatan Merah Putih",
+                desc: "Kota yang bangkit dari konflik menjadi simbol rekonsiliasi dan perdamaian nasional.",
+                toleransiAgama: "Rekonsiliasi berbasis komitmen untuk saling menjaga keamanan jiwa dan harta sesama warga negara.",
+                toleransiBudaya: "Penerapan budaya Pela Gandong sebagai sarana sosial untuk mencegah konflik dan membangun kerja sama yang positif.",
+                image: "https://images.unsplash.com/photo-1528181304800-259b08848526?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                color: "medium"
+            },
+            {
+                id: 'salatiga',
+                name: "Salatiga",
+                province: "Jawa Tengah",
+                coords: [-7.3305, 110.5084],
+                score: 92,
+                rank: "#2 Kota Toleran 2024",
+                food: "Enting-enting Gepuk",
+                iconic: "Alun-alun Pancasila",
+                desc: "Kota pendidikan dengan masyarakat multikultural yang hidup rukun dalam perbedaan.",
+                toleransiAgama: "Praktik toleransi muamalah yang kuat di tengah tingginya keberagaman agama dengan tetap menjaga batasan aqidah masing-masing.",
+                toleransiBudaya: "Terbentuknya lingkungan yang inklusif secara sosial, di mana masyarakat pendatang dan lokal hidup rukun melalui semangat gotong royong.",
+                image: "https://images.unsplash.com/photo-1549140116-86c5cbc1d6d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                color: "excellent"
             }
         ];
 
         /**
-         * APP CONTROLLER
-         * Class-based structure for cleaner logic
+         * KELAS APLIKASI UTAMA
          */
-        class App {
+        class ToleransiMapApp {
             constructor() {
                 this.map = null;
                 this.markers = [];
                 this.activeCity = null;
+                this.userLocation = null;
+                this.userMarker = null;
+                this.controlPanelVisible = false;
+                this.searchPanelVisible = false;
+                
                 this.init();
             }
 
@@ -506,245 +1058,863 @@
                 this.simulateLoading();
                 this.initMap();
                 this.renderMarkers();
-                this.setupEvents();
+                this.setupEventListeners();
+                this.setupSearch();
+                
+                // Tampilkan info startup
+                setTimeout(() => {
+                    this.showNotification("Selamat datang di Peta Toleransi Indonesia 2026");
+                }, 1500);
             }
 
             simulateLoading() {
                 const bar = document.getElementById('loadBar');
                 const loader = document.getElementById('loader');
-                let w = 0;
-                const int = setInterval(() => {
-                    w += Math.random() * 20;
-                    if(w > 100) w = 100;
-                    bar.style.width = w + '%';
-                    if(w === 100) {
-                        clearInterval(int);
+                let progress = 0;
+                
+                const interval = setInterval(() => {
+                    progress += Math.random() * 25;
+                    if(progress > 100) progress = 100;
+                    bar.style.width = `${progress}%`;
+                    
+                    if(progress === 100) {
+                        clearInterval(interval);
                         setTimeout(() => {
                             loader.style.opacity = '0';
-                            setTimeout(() => loader.remove(), 800);
+                            setTimeout(() => loader.style.display = 'none', 800);
                         }, 500);
                     }
-                }, 200);
+                }, 150);
             }
 
             initMap() {
-                // Leaflet Setup
+                // Inisialisasi peta Leaflet
                 this.map = L.map('map', {
                     zoomControl: false,
-                    attributionControl: false,
                     center: CONFIG.center,
-                    zoom: CONFIG.initialZoom
+                    zoom: CONFIG.initialZoom,
+                    fullscreenControl: true
                 });
 
-                // Using CartoDB Dark Matter for "Pro 2026" look
-                L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+                // Tambahkan tile layer dark theme
+                L.tileLayer(CONFIG.mapStyle, {
                     maxZoom: 19,
-                    subdomains: 'abcd'
+                    attribution: CONFIG.attribution
+                }).addTo(this.map);
+
+                // Tambahkan kontrol zoom custom
+                L.control.zoom({
+                    position: 'bottomright'
+                }).addTo(this.map);
+                
+                // Tambahkan kontrol fullscreen
+                L.control.fullscreen({
+                    position: 'bottomright',
+                    title: 'Layar Penuh',
+                    titleCancel: 'Keluar Layar Penuh'
                 }).addTo(this.map);
             }
 
             renderMarkers() {
                 CITIES.forEach(city => {
+                    // Tentukan warna berdasarkan skor
+                    let markerColor;
+                    if (city.score >= 90) markerColor = 'var(--success)';
+                    else if (city.score >= 85) markerColor = 'var(--primary)';
+                    else markerColor = 'var(--warning)';
+                    
+                    // Buat marker custom
                     const icon = L.divIcon({
-                        className: 'custom-pin',
+                        className: 'custom-marker-icon',
                         html: `
-                            <div class="marker-dot"></div>
-                            <div class="marker-icon">${city.name}</div>
+                            <div class="marker-pulse" style="background:${markerColor}; box-shadow: 0 0 25px ${markerColor};"></div>
+                            <div class="custom-marker" style="border-color:${markerColor}; color:${markerColor}; box-shadow: 0 0 25px ${markerColor}80;">
+                                ${city.name}
+                            </div>
                         `,
-                        iconSize: [100, 40],
-                        iconAnchor: [50, 40]
+                        iconSize: [120, 50],
+                        iconAnchor: [60, 45]
                     });
 
-                    const marker = L.marker(city.coords, { icon: icon }).addTo(this.map);
+                    // Tambahkan marker ke peta
+                    const marker = L.marker(city.coords, { 
+                        icon: icon,
+                        title: city.name
+                    }).addTo(this.map);
                     
+                    // Event handler untuk marker
                     marker.on('click', () => {
                         this.focusCity(city);
                     });
                     
-                    this.markers.push(marker);
+                    // Tooltip
+                    marker.bindTooltip(`
+                        <strong>${city.name}</strong><br>
+                        Skor Toleransi: ${city.score}<br>
+                        ${city.rank}
+                    `, {
+                        direction: 'top',
+                        offset: [0, -10],
+                        opacity: 0.9
+                    });
+                    
+                    this.markers.push({ marker, city });
                 });
             }
 
             async focusCity(city) {
                 this.activeCity = city;
                 
-                // 1. Fly to location
+                // 1. Animasi peta ke kota
                 this.map.flyTo(city.coords, 12, {
                     animate: true,
                     duration: 1.5
                 });
 
-                // 2. Fetch Live Weather Data (Validasi Data Real-time)
-                const weatherData = await this.getWeatherData(city.coords[0], city.coords[1]);
-
-                // 3. Render Panel
-                this.renderPanel(city, weatherData);
+                // 2. Ambil data cuaca
+                const weather = await this.getWeatherData(city.coords[0], city.coords[1]);
                 
-                // 4. Open Sheet
-                document.getElementById('infoSheet').classList.add('open');
+                // 3. Render sidebar
+                this.renderSidebar(city, weather);
+                
+                // 4. Buka sidebar
+                document.getElementById('citySidebar').classList.add('open');
+                
+                // 5. Highlight marker yang aktif
+                this.highlightMarker(city.id);
             }
 
             async getWeatherData(lat, lon) {
                 try {
-                    const res = await fetch(`${CONFIG.weatherApi}&latitude=${lat}&longitude=${lon}`);
-                    const data = await res.json();
-                    return {
-                        temp: data.current_weather.temperature,
-                        code: this.getWeatherDesc(data.current_weather.weathercode),
-                        wind: data.current_weather.windspeed
-                    };
-                } catch (e) {
-                    return { temp: '--', code: 'N/A', wind: '--' };
-                }
-            }
-
-            getWeatherDesc(code) {
-                // Simple mapping for WMO codes
-                if(code <= 3) return "Cerah / Berawan";
-                if(code <= 60) return "Gerimis";
-                if(code <= 80) return "Hujan";
-                return "Badai";
-            }
-
-            renderPanel(city, weather) {
-                const container = document.getElementById('sheetContent');
-                
-                // Staggered animation styles are in CSS
-                container.innerHTML = `
-                    <div class="city-header">
-                        <div>
-                            <div class="city-meta">${city.province}</div>
-                            <h2 class="city-name">${city.name}</h2>
-                        </div>
-                        <img src="https://flagcdn.com/24x18/id.png" alt="ID">
-                    </div>
-
-                    <div class="live-widget info-block" style="animation-delay: 0.1s">
-                        <div class="live-item"><i class="fas fa-temperature-high" style="color:#ffb700"></i> <span class="live-val">${weather.temp}°C</span></div>
-                        <div class="live-item"><i class="fas fa-cloud-sun" style="color:#00f2ff"></i> <span class="live-val">${weather.code}</span></div>
-                        <div class="live-item"><i class="fas fa-wind" style="color:#fff"></i> <span class="live-val">${weather.wind} km/h</span></div>
-                    </div>
-
-                    <img src="${city.img}" class="hero-img info-block" style="animation-delay: 0.2s">
-
-                    <div class="stats-grid info-block" style="animation-delay: 0.3s">
-                        <div class="stat-card">
-                            <div class="score-circle">${city.score}</div>
-                            <div class="stat-label">Skor Toleransi</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="score-circle" style="border-color:var(--secondary); color:var(--text-main); font-size:1.5rem">
-                                <i class="fas fa-award"></i>
-                            </div>
-                            <div class="stat-label">${city.rank}</div>
-                        </div>
-                    </div>
-
-                    <div class="info-block" style="animation-delay: 0.4s">
-                        <div class="info-title"><i class="fas fa-quote-left"></i> Konteks Sosial</div>
-                        <p class="info-text">${city.desc}</p>
-                    </div>
-
-                    <div class="info-block" style="animation-delay: 0.5s">
-                        <div class="info-title"><i class="fas fa-utensils"></i> Kuliner Unik</div>
-                        <p class="info-text">${city.food} - Simbol akulturasi budaya setempat.</p>
-                    </div>
+                    const response = await fetch(`${CONFIG.weatherApi}&latitude=${lat}&longitude=${lon}`);
+                    const data = await response.json();
                     
-                    <div style="height: 50px;"></div> `;
-            }
-
-            setupEvents() {
-                // Navigation
-                document.querySelectorAll('.nav-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        // Reset active classes
-                        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-                        e.currentTarget.classList.add('active');
-                        
-                        const id = e.currentTarget.id;
-                        if(id === 'btnMap') {
-                            document.getElementById('infoSheet').classList.remove('open');
-                            this.map.flyTo(CONFIG.center, CONFIG.initialZoom);
-                        }
-                        if(id === 'btnLoc') this.locateUser();
-                        if(id === 'btnStats') this.showGlobalStats();
-                        if(id === 'btnInfo') this.showAppInfo();
-                    });
-                });
-
-                // Close panel on map click
-                this.map.on('click', () => {
-                    document.getElementById('infoSheet').classList.remove('open');
-                });
-
-                // Swipe logic (Simple implementation)
-                let startY;
-                const handle = document.querySelector('.sheet-drag-handle');
-                handle.addEventListener('touchstart', e => startY = e.touches[0].clientY);
-                handle.addEventListener('touchmove', e => {
-                    const diff = e.touches[0].clientY - startY;
-                    if(diff > 50) document.getElementById('infoSheet').classList.remove('open');
-                });
-            }
-
-            locateUser() {
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(pos => {
-                        this.map.flyTo([pos.coords.latitude, pos.coords.longitude], 13);
-                        // Add temporary user marker
-                        L.marker([pos.coords.latitude, pos.coords.longitude]).addTo(this.map)
-                         .bindPopup("Lokasi Anda").openPopup();
-                    }, () => alert("Gagal mendeteksi lokasi"));
+                    return {
+                        temp: Math.round(data.current_weather.temperature),
+                        condition: this.getWeatherCondition(data.current_weather.weathercode),
+                        wind: Math.round(data.current_weather.windspeed),
+                        time: new Date(data.current_weather.time).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
+                    };
+                } catch (error) {
+                    console.error('Error fetching weather:', error);
+                    return { temp: '--', condition: 'Data tidak tersedia', wind: '--', time: '--' };
                 }
             }
 
-            showGlobalStats() {
-                const container = document.getElementById('sheetContent');
-                container.innerHTML = `
-                    <h2 class="city-name" style="font-size:1.8rem">Statistik Nasional</h2>
-                    <div class="info-text" style="margin-bottom:20px">Data Rata-rata 2024-2025</div>
-                    <div class="stats-grid info-block" style="opacity:1">
-                        <div class="stat-card">
-                            <div class="score-circle">5.6</div>
-                            <div class="stat-label">Indeks Kerukunan</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="score-circle" style="border-color:#00ff88; color:#00ff88">94</div>
-                            <div class="stat-label">Kota Terdata</div>
-                        </div>
-                    </div>
-                    <div class="info-block" style="opacity:1">
-                        <p class="info-text">Tren toleransi di Indonesia menunjukkan peningkatan positif di kota-kota satelit. Singkawang dan Salatiga mempertahankan posisi teratas selama 3 tahun berturut-turut.</p>
-                    </div>
-                `;
-                document.getElementById('infoSheet').classList.add('open');
+            getWeatherCondition(code) {
+                // Mapping kode cuaca WMO
+                const conditions = {
+                    0: 'Cerah',
+                    1: 'Sebagian Cerah',
+                    2: 'Berawan',
+                    3: 'Mendung',
+                    45: 'Berkabut',
+                    48: 'Berkabut',
+                    51: 'Gerimis Ringan',
+                    53: 'Gerimis Sedang',
+                    55: 'Gerimis Lebat',
+                    61: 'Hujan Ringan',
+                    63: 'Hujan Sedang',
+                    65: 'Hujan Lebat',
+                    71: 'Salju Ringan',
+                    73: 'Salju Sedang',
+                    75: 'Salju Lebat',
+                    80: 'Hujan Lokal Ringan',
+                    81: 'Hujan Lokal Sedang',
+                    82: 'Hujan Lokal Lebat',
+                    95: 'Badai Petir',
+                    96: 'Badai Petir dengan Hujan Es Ringan',
+                    99: 'Badai Petir dengan Hujan Es Lebat'
+                };
+                
+                return conditions[code] || 'Tidak Diketahui';
             }
 
-            showAppInfo() {
-                const container = document.getElementById('sheetContent');
-                container.innerHTML = `
-                    <h2 class="city-name" style="font-size:1.8rem">Tentang Kami</h2>
-                    <div class="info-block" style="opacity:1; margin-top:20px">
-                        <div class="info-title">KELOMPOK PKN XID</div>
-                        <ul class="info-text" style="list-style:none; padding:0">
-                            <li style="margin-bottom:10px; border-bottom:1px solid #333; padding-bottom:10px">1. Ahmad Saif Hasan</li>
-                            <li style="margin-bottom:10px; border-bottom:1px solid #333; padding-bottom:10px">2. Rival Duta Utama</li>
-                            <li style="margin-bottom:10px; border-bottom:1px solid #333; padding-bottom:10px">3. Alfa Nastiar A.A</li>
-                            <li>4. Panji Lintang Pangestu</li>
-                        </ul>
-                        <div style="margin-top:30px; font-size:0.8rem; color:var(--text-muted); text-align:center">
-                            Versi 2.0.1 (Build 2026)<br>
-                            Powered by Leaflet & Open-Meteo API
+            renderSidebar(city, weather) {
+                // Update header sidebar
+                document.getElementById('sidebarCityName').textContent = city.name;
+                document.getElementById('sidebarProvince').textContent = city.province;
+                document.getElementById('sidebarScore').textContent = `Skor: ${city.score}`;
+                
+                // Generate konten sidebar
+                const content = document.getElementById('sidebarContent');
+                content.innerHTML = '';
+                
+                // Tambahkan sections dengan delay animasi
+                const sections = [
+                    {
+                        icon: 'fas fa-image',
+                        title: 'Gambaran Kota',
+                        content: this.createHeroSection(city, weather),
+                        delay: 0.1
+                    },
+                    {
+                        icon: 'fas fa-chart-line',
+                        title: 'Statistik & Peringkat',
+                        content: this.createStatsSection(city),
+                        delay: 0.2
+                    },
+                    {
+                        icon: 'fas fa-utensils',
+                        title: 'Kuliner & Destinasi',
+                        content: this.createCultureSection(city),
+                        delay: 0.3
+                    },
+                    {
+                        icon: 'fas fa-hands-praying',
+                        title: 'Toleransi Agama',
+                        content: this.createReligionSection(city),
+                        delay: 0.4
+                    },
+                    {
+                        icon: 'fas fa-people-group',
+                        title: 'Toleransi Budaya',
+                        content: this.createCultureToleranceSection(city),
+                        delay: 0.5
+                    }
+                ];
+                
+                // Render setiap section
+                sections.forEach((section, index) => {
+                    const sectionEl = this.createSectionElement(section, index);
+                    content.appendChild(sectionEl);
+                });
+            }
+
+            createHeroSection(city, weather) {
+                return `
+                    <img src="${city.image}" alt="${city.name}" class="hero-image" loading="lazy">
+                    <div class="info-card">
+                        <p class="info-card-text">${city.desc}</p>
+                    </div>
+                    <div class="info-grid" style="margin-top: 20px;">
+                        <div class="info-card">
+                            <div class="info-card-title">
+                                <i class="fas fa-temperature-high"></i>
+                                Kondisi Cuaca
+                            </div>
+                            <p class="info-card-text">
+                                <span class="info-card-highlight">${weather.temp}°C</span> - ${weather.condition}<br>
+                                Angin: <span class="info-card-highlight">${weather.wind} km/jam</span><br>
+                                Diperbarui: ${weather.time}
+                            </p>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-title">
+                                <i class="fas fa-map-pin"></i>
+                                Koordinat
+                            </div>
+                            <p class="info-card-text">
+                                Lintang: <span class="info-card-highlight">${city.coords[0].toFixed(4)}°</span><br>
+                                Bujur: <span class="info-card-highlight">${city.coords[1].toFixed(4)}°</span><br>
+                                Zona Waktu: WIB/WITA/WIT
+                            </p>
                         </div>
                     </div>
                 `;
-                document.getElementById('infoSheet').classList.add('open');
+            }
+
+            createStatsSection(city) {
+                const scorePercent = (city.score / 100) * 100;
+                
+                return `
+                    <div class="info-card">
+                        <div class="info-card-title">
+                            <i class="fas fa-trophy"></i>
+                            Pencapaian
+                        </div>
+                        <p class="info-card-text">
+                            Peringkat: <span class="info-card-highlight">${city.rank}</span><br>
+                            Skor Toleransi: <span class="info-card-highlight">${city.score}/100</span><br>
+                            Status: <span class="info-card-highlight" style="color:${city.score >= 90 ? 'var(--success)' : city.score >= 85 ? 'var(--primary)' : 'var(--warning)'}">
+                                ${city.score >= 90 ? 'Sangat Tinggi' : city.score >= 85 ? 'Tinggi' : 'Sedang'}
+                            </span>
+                        </p>
+                        <div style="margin-top: 15px; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;">
+                            <div style="width: ${scorePercent}%; height: 100%; background: ${city.score >= 90 ? 'var(--success)' : city.score >= 85 ? 'var(--primary)' : 'var(--warning)'}; border-radius: 4px;"></div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            createCultureSection(city) {
+                return `
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <div class="info-card-title">
+                                <i class="fas fa-utensils"></i>
+                                Makanan Khas
+                            </div>
+                            <p class="info-card-text">
+                                <span class="info-card-highlight">${city.food}</span><br>
+                                Makanan tradisional yang merepresentasikan akulturasi budaya setempat.
+                            </p>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-card-title">
+                                <i class="fas fa-landmark"></i>
+                                Tempat Ikonik
+                            </div>
+                            <p class="info-card-text">
+                                <span class="info-card-highlight">${city.iconic}</span><br>
+                                Simbol budaya dan sejarah yang menjadi kebanggaan masyarakat.
+                            </p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            createReligionSection(city) {
+                return `
+                    <div class="info-card">
+                        <div class="info-card-title">
+                            <i class="fas fa-hands-praying"></i>
+                            Praktik Toleransi
+                        </div>
+                        <p class="info-card-text">${city.toleransiAgama}</p>
+                    </div>
+                `;
+            }
+
+            createCultureToleranceSection(city) {
+                return `
+                    <div class="info-card">
+                        <div class="info-card-title">
+                            <i class="fas fa-people-group"></i>
+                            Harmoni Budaya
+                        </div>
+                        <p class="info-card-text">${city.toleransiBudaya}</p>
+                    </div>
+                `;
+            }
+
+            createSectionElement(section, index) {
+                const sectionEl = document.createElement('div');
+                sectionEl.className = 'content-section';
+                sectionEl.style.animationDelay = `${section.delay}s`;
+                sectionEl.style.animationDuration = '0.6s';
+                
+                sectionEl.innerHTML = `
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="${section.icon}"></i>
+                        </div>
+                        <div class="section-title">${section.title}</div>
+                    </div>
+                    ${section.content}
+                `;
+                
+                return sectionEl;
+            }
+
+            highlightMarker(cityId) {
+                // Reset semua marker
+                this.markers.forEach(({ marker, city }) => {
+                    const icon = marker.options.icon;
+                    const markerColor = city.score >= 90 ? 'var(--success)' : 
+                                       city.score >= 85 ? 'var(--primary)' : 'var(--warning)';
+                    
+                    // Update marker dengan warna normal
+                    icon.options.html = `
+                        <div class="marker-pulse" style="background:${markerColor}; box-shadow: 0 0 25px ${markerColor};"></div>
+                        <div class="custom-marker" style="border-color:${markerColor}; color:${markerColor}; box-shadow: 0 0 25px ${markerColor}80;">
+                            ${city.name}
+                        </div>
+                    `;
+                    
+                    marker.setIcon(icon);
+                });
+                
+                // Highlight marker aktif
+                const activeMarker = this.markers.find(m => m.city.id === cityId);
+                if (activeMarker) {
+                    const icon = activeMarker.marker.options.icon;
+                    icon.options.html = `
+                        <div class="marker-pulse" style="background:var(--accent); box-shadow: 0 0 35px var(--accent);"></div>
+                        <div class="custom-marker" style="border-color:var(--accent); color:var(--accent); box-shadow: 0 0 35px var(--accent); transform: scale(1.1);">
+                            ${activeMarker.city.name}
+                        </div>
+                    `;
+                    
+                    activeMarker.marker.setIcon(icon);
+                }
+            }
+
+            setupEventListeners() {
+                // Navigation buttons
+                document.getElementById('btnMap').addEventListener('click', () => {
+                    this.resetNavButtons();
+                    document.getElementById('btnMap').classList.add('active');
+                    
+                    // Reset view
+                    this.map.flyTo(CONFIG.center, CONFIG.initialZoom);
+                    document.getElementById('citySidebar').classList.remove('open');
+                    document.getElementById('controlPanel').classList.remove('active');
+                    document.getElementById('searchContainer').classList.remove('active');
+                });
+                
+                document.getElementById('btnSearch').addEventListener('click', () => {
+                    this.resetNavButtons();
+                    document.getElementById('btnSearch').classList.add('active');
+                    
+                    // Toggle search panel
+                    this.searchPanelVisible = !this.searchPanelVisible;
+                    document.getElementById('searchContainer').classList.toggle('active');
+                    
+                    if (this.searchPanelVisible) {
+                        document.getElementById('searchBox').focus();
+                    }
+                    
+                    // Close other panels
+                    document.getElementById('controlPanel').classList.remove('active');
+                    this.controlPanelVisible = false;
+                });
+                
+                document.getElementById('btnLayers').addEventListener('click', () => {
+                    this.resetNavButtons();
+                    document.getElementById('btnLayers').classList.add('active');
+                    
+                    // Toggle control panel
+                    this.controlPanelVisible = !this.controlPanelVisible;
+                    document.getElementById('controlPanel').classList.toggle('active');
+                    
+                    // Close other panels
+                    document.getElementById('searchContainer').classList.remove('active');
+                    this.searchPanelVisible = false;
+                });
+                
+                document.getElementById('btnStats').addEventListener('click', () => {
+                    this.resetNavButtons();
+                    document.getElementById('btnStats').classList.add('active');
+                    this.showStatisticsPanel();
+                });
+                
+                document.getElementById('btnLoc').addEventListener('click', () => {
+                    this.resetNavButtons();
+                    document.getElementById('btnLoc').classList.add('active');
+                    this.locateUser();
+                });
+                
+                document.getElementById('btnInfo').addEventListener('click', () => {
+                    this.resetNavButtons();
+                    document.getElementById('btnInfo').classList.add('active');
+                    this.showAboutPanel();
+                });
+                
+                // Close sidebar
+                document.getElementById('closeSidebar').addEventListener('click', () => {
+                    document.getElementById('citySidebar').classList.remove('open');
+                    this.resetNavButtons();
+                    document.getElementById('btnMap').classList.add('active');
+                });
+                
+                // Close panels when clicking on map
+                this.map.on('click', () => {
+                    if (this.controlPanelVisible) {
+                        document.getElementById('controlPanel').classList.remove('active');
+                        this.controlPanelVisible = false;
+                        this.resetNavButtons();
+                        document.getElementById('btnMap').classList.add('active');
+                    }
+                    
+                    if (this.searchPanelVisible) {
+                        document.getElementById('searchContainer').classList.remove('active');
+                        this.searchPanelVisible = false;
+                        this.resetNavButtons();
+                        document.getElementById('btnMap').classList.add('active');
+                    }
+                });
+            }
+
+            setupSearch() {
+                const searchBox = document.getElementById('searchBox');
+                const searchResults = document.getElementById('searchResults');
+                
+                searchBox.addEventListener('input', (e) => {
+                    const query = e.target.value.toLowerCase().trim();
+                    
+                    if (query.length < 2) {
+                        searchResults.style.display = 'none';
+                        return;
+                    }
+                    
+                    // Filter kota berdasarkan query
+                    const filteredCities = CITIES.filter(city => 
+                        city.name.toLowerCase().includes(query) || 
+                        city.province.toLowerCase().includes(query)
+                    );
+                    
+                    // Tampilkan hasil
+                    if (filteredCities.length > 0) {
+                        searchResults.innerHTML = filteredCities.map(city => `
+                            <div class="search-result-item" data-city-id="${city.id}">
+                                <div class="result-name">${city.name}, ${city.province}</div>
+                                <div class="result-score">${city.score}</div>
+                            </div>
+                        `).join('');
+                        
+                        searchResults.style.display = 'block';
+                        
+                        // Tambahkan event listener untuk hasil
+                        document.querySelectorAll('.search-result-item').forEach(item => {
+                            item.addEventListener('click', () => {
+                                const cityId = item.dataset.cityId;
+                                const city = CITIES.find(c => c.id === cityId);
+                                
+                                if (city) {
+                                    this.focusCity(city);
+                                    searchBox.value = '';
+                                    searchResults.style.display = 'none';
+                                    this.resetNavButtons();
+                                    document.getElementById('btnMap').classList.add('active');
+                                }
+                            });
+                        });
+                    } else {
+                        searchResults.innerHTML = '<div class="search-result-item">Tidak ditemukan</div>';
+                        searchResults.style.display = 'block';
+                    }
+                });
+                
+                // Sembunyikan hasil ketika klik di luar
+                document.addEventListener('click', (e) => {
+                    if (!searchBox.contains(e.target) && !searchResults.contains(e.target)) {
+                        searchResults.style.display = 'none';
+                    }
+                });
+            }
+
+            resetNavButtons() {
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+            }
+
+            async locateUser() {
+                if (!navigator.geolocation) {
+                    this.showNotification("Geolokasi tidak didukung oleh browser Anda");
+                    return;
+                }
+                
+                this.showNotification("Mendeteksi lokasi Anda...");
+                
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const { latitude, longitude } = position.coords;
+                        this.userLocation = [latitude, longitude];
+                        
+                        // Tambahkan/update marker pengguna
+                        if (this.userMarker) {
+                            this.map.removeLayer(this.userMarker);
+                        }
+                        
+                        this.userMarker = L.marker([latitude, longitude], {
+                            icon: L.divIcon({
+                                className: 'user-marker',
+                                html: '<div style="background:var(--accent); width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 0 20px var(--accent);"></div>',
+                                iconSize: [26, 26],
+                                iconAnchor: [13, 13]
+                            })
+                        }).addTo(this.map)
+                        .bindPopup("Lokasi Anda saat ini")
+                        .openPopup();
+                        
+                        // Zoom ke lokasi pengguna
+                        this.map.flyTo([latitude, longitude], 13);
+                        
+                        this.showNotification("Lokasi Anda berhasil ditemukan");
+                    },
+                    (error) => {
+                        console.error("Geolocation error:", error);
+                        this.showNotification("Gagal mendeteksi lokasi. Pastikan izin lokasi telah diberikan.");
+                    }
+                );
+            }
+
+            showStatisticsPanel() {
+                // Hitung statistik
+                const totalCities = CITIES.length;
+                const avgScore = Math.round(CITIES.reduce((sum, city) => sum + city.score, 0) / totalCities);
+                const maxScore = Math.max(...CITIES.map(city => city.score));
+                const minScore = Math.min(...CITIES.map(city => city.score));
+                
+                // Tampilkan di sidebar
+                document.getElementById('sidebarCityName').textContent = "Statistik Nasional";
+                document.getElementById('sidebarProvince').textContent = "Toleransi Indonesia 2026";
+                document.getElementById('sidebarScore').textContent = "Data Analisis";
+                
+                const content = document.getElementById('sidebarContent');
+                content.innerHTML = '';
+                
+                // Section statistik
+                const statsSection = this.createSectionElement({
+                    icon: 'fas fa-chart-bar',
+                    title: 'Statistik Toleransi',
+                    content: `
+                        <div class="info-grid">
+                            <div class="info-card">
+                                <div class="info-card-title">
+                                    <i class="fas fa-city"></i>
+                                    Jumlah Kota
+                                </div>
+                                <p class="info-card-text">
+                                    <span class="info-card-highlight" style="font-size: 2rem;">${totalCities}</span><br>
+                                    Kota yang diteliti
+                                </p>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-card-title">
+                                    <i class="fas fa-calculator"></i>
+                                    Rata-rata Skor
+                                </div>
+                                <p class="info-card-text">
+                                    <span class="info-card-highlight" style="font-size: 2rem;">${avgScore}</span><br>
+                                    Skor toleransi rata-rata
+                                </p>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-card-title">
+                                    <i class="fas fa-arrow-up"></i>
+                                    Skor Tertinggi
+                                </div>
+                                <p class="info-card-text">
+                                    <span class="info-card-highlight" style="font-size: 2rem;">${maxScore}</span><br>
+                                    ${CITIES.find(c => c.score === maxScore).name}
+                                </p>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-card-title">
+                                    <i class="fas fa-arrow-down"></i>
+                                    Skor Terendah
+                                </div>
+                                <p class="info-card-text">
+                                    <span class="info-card-highlight" style="font-size: 2rem;">${minScore}</span><br>
+                                    ${CITIES.find(c => c.score === minScore).name}
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="info-card" style="margin-top: 20px;">
+                            <div class="info-card-title">
+                                <i class="fas fa-chart-pie"></i>
+                                Distribusi Skor
+                            </div>
+                            <p class="info-card-text">
+                                <strong>Sangat Tinggi (90+):</strong> ${CITIES.filter(c => c.score >= 90).length} kota<br>
+                                <strong>Tinggi (85-89):</strong> ${CITIES.filter(c => c.score >= 85 && c.score < 90).length} kota<br>
+                                <strong>Sedang (80-84):</strong> ${CITIES.filter(c => c.score >= 80 && c.score < 85).length} kota<br>
+                            </p>
+                        </div>
+                    `,
+                    delay: 0.1
+                }, 0);
+                
+                content.appendChild(statsSection);
+                
+                // Section tren
+                const trendSection = this.createSectionElement({
+                    icon: 'fas fa-trend-up',
+                    title: 'Tren Nasional',
+                    content: `
+                        <div class="info-card">
+                            <div class="info-card-title">
+                                <i class="fas fa-lightbulb"></i>
+                                Temuan Utama
+                            </div>
+                            <p class="info-card-text">
+                                1. Kota kecil seperti Singkawang dan Salatiga menunjukkan tingkat toleransi yang lebih tinggi dibandingkan metropolitan.<br><br>
+                                2. Keragaman etnis dan agama bukan penghalang, melainkan modal sosial ketika dikelola dengan baik.<br><br>
+                                3. Praktik budaya lokal seperti "Pela Gandong" di Ambon efektif mencegah konflik.<br><br>
+                                4. Pendidikan multikultural berperan penting dalam membangun toleransi.
+                            </p>
+                        </div>
+                    `,
+                    delay: 0.2
+                }, 1);
+                
+                content.appendChild(trendSection);
+                
+                // Buka sidebar
+                document.getElementById('citySidebar').classList.add('open');
+            }
+
+            showAboutPanel() {
+                document.getElementById('sidebarCityName').textContent = "Tentang";
+                document.getElementById('sidebarProvince').textContent = "Peta Toleransi Indonesia";
+                document.getElementById('sidebarScore').textContent = "Versi 2.0";
+                
+                const content = document.getElementById('sidebarContent');
+                content.innerHTML = '';
+                
+                // Section tentang
+                const aboutSection = this.createSectionElement({
+                    icon: 'fas fa-info-circle',
+                    title: 'Tentang Aplikasi',
+                    content: `
+                        <div class="info-card">
+                            <div class="info-card-title">
+                                <i class="fas fa-map-marked-alt"></i>
+                                Deskripsi
+                            </div>
+                            <p class="info-card-text">
+                                Peta Interaktif Toleransi Indonesia adalah platform visualisasi data yang menampilkan praktik toleransi di 6 kota studi kasus di Indonesia. Aplikasi ini dikembangkan untuk studi PKN 2026.
+                            </p>
+                        </div>
+                        
+                        <div class="info-card" style="margin-top: 20px;">
+                            <div class="info-card-title">
+                                <i class="fas fa-users"></i>
+                                Tim Pengembang
+                            </div>
+                            <p class="info-card-text">
+                                <strong>Kelompok PKN XID:</strong><br><br>
+                                1. Ahmad Saif Hasan<br>
+                                2. Rival Duta Utama<br>
+                                3. Alfa A<br>
+                                4. Panji Lintang Pangestu<br><br>
+                                <em>Dibimbing oleh: Guru PKN</em>
+                            </p>
+                        </div>
+                    `,
+                    delay: 0.1
+                }, 0);
+                
+                content.appendChild(aboutSection);
+                
+                // Section teknologi
+                const techSection = this.createSectionElement({
+                    icon: 'fas fa-code',
+                    title: 'Teknologi',
+                    content: `
+                        <div class="info-grid">
+                            <div class="info-card">
+                                <div class="info-card-title">
+                                    <i class="fab fa-js"></i>
+                                    Frontend
+                                </div>
+                                <p class="info-card-text">
+                                    HTML5, CSS3, JavaScript ES6+<br>
+                                    Leaflet.js untuk peta interaktif<br>
+                                    Font Awesome untuk ikon
+                                </p>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-card-title">
+                                    <i class="fas fa-database"></i>
+                                    Data
+                                </div>
+                                <p class="info-card-text">
+                                    Studi Kasus 6 Kota<br>
+                                    Data Cuaca Real-time<br>
+                                    Indeks Toleransi 2024
+                                </p>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-card-title">
+                                    <i class="fas fa-wifi"></i>
+                                    API
+                                </div>
+                                <p class="info-card-text">
+                                    Open-Meteo untuk cuaca<br>
+                                    OpenStreetMap untuk peta<br>
+                                    CartoDB untuk tile layer
+                                </p>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-card-title">
+                                    <i class="fas fa-mobile-alt"></i>
+                                    Responsif
+                                </div>
+                                <p class="info-card-text">
+                                    Mobile-first design<br>
+                                    Compatible semua device<br>
+                                    Touch gesture support
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="info-card" style="margin-top: 20px;">
+                            <div class="info-card-title">
+                                <i class="fas fa-graduation-cap"></i>
+                                Tujuan Pendidikan
+                            </div>
+                            <p class="info-card-text">
+                                Aplikasi ini bertujuan untuk:<br><br>
+                                1. Memvisualisasikan praktik toleransi di Indonesia<br>
+                                2. Memberikan pemahaman tentang harmoni budaya<br>
+                                3. Mendorong sikap saling menghargai perbedaan<br>
+                                4. Menyajikan data dalam format interaktif dan menarik
+                            </p>
+                        </div>
+                    `,
+                    delay: 0.2
+                }, 1);
+                
+                content.appendChild(techSection);
+                
+                // Buka sidebar
+                document.getElementById('citySidebar').classList.add('open');
+            }
+
+            showNotification(message, duration = 3000) {
+                // Buat elemen notifikasi
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 100px;
+                    right: 24px;
+                    background: rgba(10, 15, 25, 0.95);
+                    backdrop-filter: blur(20px);
+                    color: white;
+                    padding: 16px 24px;
+                    border-radius: 12px;
+                    border-left: 4px solid var(--primary);
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+                    z-index: 3000;
+                    max-width: 350px;
+                    animation: slideInLeft 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+                    font-family: 'Inter', sans-serif;
+                    font-size: 0.9rem;
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                `;
+                
+                notification.innerHTML = `
+                    <i class="fas fa-info-circle" style="color: var(--primary); font-size: 1.2rem;"></i>
+                    <span>${message}</span>
+                `;
+                
+                document.body.appendChild(notification);
+                
+                // Hapus notifikasi setelah durasi tertentu
+                setTimeout(() => {
+                    notification.style.animation = 'slideInLeft 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) reverse';
+                    setTimeout(() => {
+                        if (notification.parentNode) {
+                            notification.parentNode.removeChild(notification);
+                        }
+                    }, 400);
+                }, duration);
             }
         }
 
-        // Initialize Application
+        // Inisialisasi aplikasi saat halaman dimuat
         document.addEventListener('DOMContentLoaded', () => {
-            const app = new App();
+            window.app = new ToleransiMapApp();
+        });
+
+        // Tambahkan event listener untuk F11 fullscreen
+        document.addEventListener('fullscreenchange', () => {
+            setTimeout(() => {
+                window.app.map.invalidateSize();
+            }, 300);
+        });
+        
+        document.addEventListener('webkitfullscreenchange', () => {
+            setTimeout(() => {
+                window.app.map.invalidateSize();
+            }, 300);
         });
 
     </script>

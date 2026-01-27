@@ -54,7 +54,6 @@
         
         /* Custom Tiles Dark Mode Override */
         .leaflet-layer { filter: brightness(0.8) hue-rotate(180deg) invert(100%); }
-        /* Fix for specific tile providers if needed, logic handled in JS */
 
         /* --- 3. UI COMPONENTS --- */
         
@@ -340,37 +339,6 @@
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
         @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-        /* Loading Screen */
-        #loader {
-            position: fixed; inset: 0;
-            background: #000;
-            z-index: 9999;
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            transition: opacity 0.8s;
-        }
-        
-        .loader-bar {
-            width: 200px; height: 2px;
-            background: rgba(255,255,255,0.1);
-            margin-top: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .loader-progress {
-            position: absolute; top: 0; left: 0;
-            height: 100%; width: 0%;
-            background: var(--primary);
-            transition: width 0.2s;
-            box-shadow: 0 0 10px var(--primary);
-        }
-
-        .loader-text {
-            font-family: 'Rajdhani'; letter-spacing: 4px;
-            color: var(--primary); text-transform: uppercase; font-size: 0.9rem;
-        }
-
         /* Responsive Tablet/Desktop */
         @media (min-width: 768px) {
             .info-sheet {
@@ -389,11 +357,6 @@
     </style>
 </head>
 <body>
-
-    <div id="loader">
-        <div class="loader-text">INITIALIZING SYSTEM...</div>
-        <div class="loader-bar"><div class="loader-progress" id="loadBar"></div></div>
-    </div>
 
     <header class="app-header">
         <div class="brand-logo"><i class="fas fa-map-marked-alt"></i> IND<span style="color:var(--primary)">TOLERANCE</span></div>
@@ -462,7 +425,7 @@
                 coords: [1.4748, 124.8428],
                 score: 94,
                 rank: "Sangat Toleran",
-                desc: "Manado yang terkenal dengan kelezatan Bubur Manado (Tinutuan) dan keindahan bawah laut Bunaken memiliki fondasi harmoni yang sangat kuat melalui Tradisi Mapalus. Budaya gotong royong tradisional ini diterapkan dalam berbagai aspek kehidupan, mulai dari pertanian hingga pembangunan rumah, di mana warga saling membantu tanpa memandang latar belakang suku maupun keyakinan. Keterkaitannya dengan toleransi tercermin dalam semboyan "Si Tou Timou Tumou Tou" (manusia hidup untuk memanusiakan orang lain), yang mendorong masyarakat untuk aktif menjaga keamanan tempat ibadah sesama warga saat hari raya, menciptakan lingkungan yang sangat inklusif di mana perbedaan dianggap sebagai kekayaan yang harus dijaga bersama demi kedamaian sosial.",
+                desc: "Manado yang terkenal dengan kelezatan Bubur Manado (Tinutuan) dan keindahan bawah laut Bunaken memiliki fondasi harmoni yang sangat kuat melalui Tradisi Mapalus. Budaya gotong royong tradisional ini diterapkan dalam berbagai aspek kehidupan, mulai dari pertanian hingga pembangunan rumah, di mana warga saling membantu tanpa memandang latar belakang suku maupun keyakinan. Keterkaitannya dengan toleransi tercermin dalam semboyan 'Si Tou Timou Tumou Tou' (manusia hidup untuk memanusiakan orang lain), yang mendorong masyarakat untuk aktif menjaga keamanan tempat ibadah sesama warga saat hari raya, menciptakan lingkungan yang sangat inklusif di mana perbedaan dianggap sebagai kekayaan yang harus dijaga bersama demi kedamaian sosial.",
                 food: "Tinutuan (Bubur Manado)",
                 img: "https://upload.wikimedia.org/wikipedia/commons/9/93/Tinutuan_bubur_Manado.JPG"
             },
@@ -503,28 +466,10 @@
             }
 
             async init() {
-                this.simulateLoading();
+                // Loading simulation removed
                 this.initMap();
                 this.renderMarkers();
                 this.setupEvents();
-            }
-
-            simulateLoading() {
-                const bar = document.getElementById('loadBar');
-                const loader = document.getElementById('loader');
-                let w = 0;
-                const int = setInterval(() => {
-                    w += Math.random() * 20;
-                    if(w > 100) w = 100;
-                    bar.style.width = w + '%';
-                    if(w === 100) {
-                        clearInterval(int);
-                        setTimeout(() => {
-                            loader.style.opacity = '0';
-                            setTimeout(() => loader.remove(), 800);
-                        }, 500);
-                    }
-                }, 200);
             }
 
             initMap() {
@@ -729,7 +674,7 @@
                         <ul class="info-text" style="list-style:none; padding:0">
                             <li style="margin-bottom:10px; border-bottom:1px solid #333; padding-bottom:10px">1. Ahmad Saif Hasan</li>
                             <li style="margin-bottom:10px; border-bottom:1px solid #333; padding-bottom:10px">2. Rival Duta Utama</li>
-                            <li style="margin-bottom:10px; border-bottom:1px solid #333; padding-bottom:10px">3. Alfa Nastiar An Aufik</li>
+                            <li style="margin-bottom:10px; border-bottom:1px solid #333; padding-bottom:10px">3. Alfa A</li>
                             <li>4. Panji Lintang Pangestu</li>
                         </ul>
                         <div style="margin-top:30px; font-size:0.8rem; color:var(--text-muted); text-align:center">
